@@ -977,25 +977,25 @@ a{color:inherit}
     copy(location.href, this, "링크 복사됨");
   });
 
-  /* ---------- 카카오톡 공유 ---------- */
+ /* ---------- 카카오톡 세로형 카드 공유 ---------- */
   var KAKAO_KEY = "35ce346e050f7085af2b0947a28f3395";
   var SITE_URL  = "https://insight-doby.github.io/wedding-1205/";
-  var SHARE_IMG = SITE_URL + "assets/images/share.jpg";
+  var SHARE_IMG = "https://insight-doby.github.io/wedding-1205/assets/images/share.jpg";
   var SHARE_TITLE = "도훈 ♥ 영현 결혼식에 초대합니다";
-  var SHARE_DESC  = "2026년 12월 5일 토요일 오후 3시 40분\n웨딩시티 아모르홀";
+  var SHARE_DESC  = "2026년 12월 5일 토요일 오후 3시 40분\n신도림 웨딩시티 8층 아모르홀";
 
-  var kakaoReady = false;
+  // SDK 초기화
   try {
-    if (KAKAO_KEY && window.Kakao){
-      if (!window.Kakao.isInitialized()) window.Kakao.init(KAKAO_KEY);
-      kakaoReady = window.Kakao.isInitialized();
+    if (window.Kakao && !window.Kakao.isInitialized()) {
+      window.Kakao.init(KAKAO_KEY);
     }
-  } catch(e){ kakaoReady = false; }
+  } catch(e) {}
 
   document.getElementById("shareBtn").addEventListener("click", function(){
     var self = this;
 
-    if (kakaoReady){
+    // 카카오톡 SDK가 사용 가능한 상태인지 점검
+    if (window.Kakao && window.Kakao.isInitialized()) {
       try {
         window.Kakao.Share.sendDefault({
           objectType: "feed",
@@ -1003,23 +1003,37 @@ a{color:inherit}
             title: SHARE_TITLE,
             description: SHARE_DESC,
             imageUrl: SHARE_IMG,
-            link: { mobileWebUrl: SITE_URL, webUrl: SITE_URL }
+            imageWidth: 800,
+            imageHeight: 1100, // 세로로 길게 출력되는 비율
+            link: {
+              mobileWebUrl: SITE_URL,
+              webUrl: SITE_URL
+            }
           },
           buttons: [
-            { title: "청첩장 보기", link: { mobileWebUrl: SITE_URL, webUrl: SITE_URL } }
+            {
+              title: "모바일 청첩장 보기",
+              link: {
+                mobileWebUrl: SITE_URL,
+                webUrl: SITE_URL
+              }
+            }
           ]
         });
-        return;
-      } catch(e){}
+        return; // 카카오톡 공유가 실행되면 아래 코드는 중단
+      } catch(err) {
+        console.warn("Kakao share failed, fallback to native share", err);
+      }
     }
 
-    if (navigator.share){
+    // 카카오 SDK 미지원 환경(PC 웹 등) 대체 동작
+    if (navigator.share) {
       navigator.share({
         title: SHARE_TITLE,
-        text: "2026년 12월 5일 토요일 오후 3시 40분 · 웨딩시티 아모르홀",
+        text: SHARE_DESC,
         url: SITE_URL
       }).catch(function(){});
-    } else {
+    } else if (typeof copy === "function") {
       copy(SITE_URL, self, "링크 복사됨");
     }
   });
