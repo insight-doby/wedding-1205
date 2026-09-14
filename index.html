@@ -18,6 +18,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300&display=swap" rel="stylesheet" />
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js" crossorigin="anonymous"></script>
 
 <style>
 /* ============================================================
@@ -689,7 +690,7 @@ a{color:inherit}
     <p class="closing__quote">Thank you<br />for being part of<br />our winter</p>
     <p class="closing__names">김도훈 · 이영현</p>
     <div class="share">
-      <button class="btn-line" id="shareBtn">청첩장 공유하기</button>
+      <button class="btn-line" id="shareBtn">카카오톡으로 공유</button>
       <button class="btn-line" id="copyUrl">링크 복사</button>
     </div>
   </section>
@@ -908,11 +909,53 @@ a{color:inherit}
   document.getElementById("copyUrl").addEventListener("click", function(){
     copy(location.href, this, "링크 복사됨");
   });
+  /* ---------- 카카오톡 공유 ----------
+     ▼ developers.kakao.com에서 발급받은 JavaScript 키를 넣으세요.
+       비워두면 일반 공유(링크 복사)로 동작합니다.                      */
+  var KAKAO_KEY = "35ce346e050f7085af2b0947a28f3395";
+
+  var SITE_URL  = "https://insight-doby.github.io/wedding-1205/";
+  var SHARE_IMG = SITE_URL + "assets/images/share.jpg";
+  var SHARE_TITLE = "도훈 ♥ 영현 결혼식에 초대합니다";
+  var SHARE_DESC  = "2026년 12월 5일 토요일 오후 3시 40분\n웨딩시티 아모르홀";
+
+  var kakaoReady = false;
+  try {
+    if (KAKAO_KEY && window.Kakao){
+      if (!window.Kakao.isInitialized()) window.Kakao.init(KAKAO_KEY);
+      kakaoReady = window.Kakao.isInitialized();
+    }
+  } catch(e){ kakaoReady = false; }
+
   document.getElementById("shareBtn").addEventListener("click", function(){
+    var self = this;
+
+    if (kakaoReady){
+      try {
+        window.Kakao.Share.sendDefault({
+          objectType: "feed",
+          content: {
+            title: SHARE_TITLE,
+            description: SHARE_DESC,
+            imageUrl: SHARE_IMG,
+            link: { mobileWebUrl: SITE_URL, webUrl: SITE_URL }
+          },
+          buttons: [
+            { title: "청첩장 보기", link: { mobileWebUrl: SITE_URL, webUrl: SITE_URL } }
+          ]
+        });
+        return;
+      } catch(e){}
+    }
+
     if (navigator.share){
-      navigator.share({ title: "김도훈 · 이영현 결혼합니다", text: "2026년 12월 5일 토요일 오후 3시 40분 · 웨딩시티 아모르홀", url: location.href }).catch(function(){});
+      navigator.share({
+        title: SHARE_TITLE,
+        text: "2026년 12월 5일 토요일 오후 3시 40분 · 웨딩시티 아모르홀",
+        url: SITE_URL
+      }).catch(function(){});
     } else {
-      copy(location.href, this, "링크 복사됨");
+      copy(SITE_URL, self, "링크 복사됨");
     }
   });
 
