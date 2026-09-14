@@ -7,11 +7,11 @@
 
 <!-- ====== 카카오톡/링크 공유 미리보기 ====== -->
 <meta property="og:type" content="website" />
-<meta property="og:title" content="김도훈 · 이영현 결혼합니다" />
-<meta property="og:description" content="2026년 12월 6일 일요일 오후 3시 40분 · 웨딩시티 아모르홀" />
+<meta property="og:title" content="도훈 ♥ 영현 결혼식에 초대합니다" />
+<meta property="og:description" content="12월 5일 토요일 오후 3시 40분, 웨딩시티 아모르홀" />
 <!-- 배포 후 실제 주소로 바꿔주세요 -->
-<meta property="og:image" content="https://사용자이름.github.io/레포이름/assets/images/share.jpg" />
-<meta property="og:url" content="https://사용자이름.github.io/레포이름/" />
+<meta property="og:image" content="https://insight-doby.github.io/wedding-1205/assets/images/share.jpg" />
+<meta property="og:url" content="https://insight-doby.github.io/wedding-1205/" />
 <meta name="theme-color" content="#FFFFFF" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -279,7 +279,6 @@ a{color:inherit}
   margin:10px 0 0;font-family:var(--serif);font-size:14px;
   color:var(--cold);letter-spacing:.05em;
 }
-.cal__actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:30px}
 .btn-line{
   display:flex;align-items:center;justify-content:center;
   padding:13px 0;border:1px solid var(--line);
@@ -291,23 +290,60 @@ a{color:inherit}
 /* ============================================================
    5. GALLERY
    ============================================================ */
-.gallery__track{
-  display:flex;gap:10px;
-  overflow-x:auto;scroll-snap-type:x mandatory;
-  padding:0 var(--gutter);
+.gallery__grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:7px;
+}
+.gallery__cell{
+  position:relative;padding:0;display:block;width:100%;
+  background:var(--paper);overflow:hidden;aspect-ratio:3/4;
+}
+.gallery__cell::after{
+  content:attr(data-label);
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--serif);font-size:11px;letter-spacing:.06em;color:var(--ink-3);
+  border:1px solid var(--line);
+}
+.gallery__cell.has-photo::after{display:none}
+.gallery__cell img{width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .7s var(--ease)}
+.gallery__cell.has-photo img{opacity:1}
+.gallery__more{
+  display:block;width:100%;margin-top:14px;padding:14px 0;
+  border:1px solid var(--line);font-size:12.5px;color:var(--ink-2);
+  letter-spacing:.02em;
+}
+
+/* 전체화면 뷰어 */
+.lb{
+  position:fixed;inset:0;z-index:100;
+  background:rgba(13,17,20,.96);
+  display:none;flex-direction:column;
+  opacity:0;transition:opacity .3s var(--ease);
+}
+.lb.open{display:flex}
+.lb.show{opacity:1}
+.lb__top{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:calc(14px + env(safe-area-inset-top)) 18px 10px;
+  color:rgba(255,255,255,.7);
+  font-family:var(--serif);font-size:12px;letter-spacing:.12em;
+}
+.lb__close{width:34px;height:34px;color:rgba(255,255,255,.75);font-size:22px;line-height:1}
+.lb__track{
+  flex:1;display:flex;overflow-x:auto;scroll-snap-type:x mandatory;
   scrollbar-width:none;-webkit-overflow-scrolling:touch;
 }
-.gallery__track::-webkit-scrollbar{display:none}
-.gallery__item{flex:0 0 76%;scroll-snap-align:center}
-.gallery__meta{
-  display:flex;align-items:center;justify-content:center;gap:12px;
-  margin-top:20px;font-family:var(--serif);font-size:12px;color:var(--ink-3);
-  letter-spacing:.1em;font-variant-numeric:tabular-nums;
+.lb__track::-webkit-scrollbar{display:none}
+.lb__slide{
+  flex:0 0 100%;scroll-snap-align:center;
+  display:flex;align-items:center;justify-content:center;padding:0 12px;
 }
-.gallery__bar{width:70px;height:1px;background:var(--line);position:relative}
-.gallery__bar i{
-  position:absolute;left:0;top:0;height:1px;background:var(--cold);
-  transition:width .4s var(--ease),transform .4s var(--ease);
+.lb__slide img{max-width:100%;max-height:100%;object-fit:contain}
+.lb__hint{
+  text-align:center;color:rgba(255,255,255,.4);font-size:11px;
+  padding:12px 0 calc(18px + env(safe-area-inset-bottom));letter-spacing:.04em;
 }
 
 /* ============================================================
@@ -415,8 +451,8 @@ a{color:inherit}
       <p class="cover__mark">Two Winters</p>
       <div class="cover__foot">
         <h1 class="cover__names">김도훈 &nbsp;·&nbsp; 이영현</h1>
-        <p class="cover__date">6 December 2026</p>
-        <p class="cover__venue">일요일 오후 3시 40분 · 웨딩시티 아모르홀</p>
+        <p class="cover__date">5 December 2026</p>
+        <p class="cover__venue">토요일 오후 3시 40분 · 웨딩시티 아모르홀</p>
         <div class="cover__cue"></div>
       </div>
     </div>
@@ -431,7 +467,7 @@ a{color:inherit}
       </div>
       <div class="winters__link"></div>
       <div class="winters__col">
-        <span class="winters__date">2026.12.06</span>
+        <span class="winters__date">2026.12.05</span>
         <span class="winters__cap">평생을 약속한 날</span>
       </div>
     </div>
@@ -457,12 +493,12 @@ a{color:inherit}
     <!-- ⚠️ 혼주 성함을 채워주세요 -->
     <div class="family">
       <div class="family__row">
-        <span class="family__parents">김○○ · ○○○</span>
+        <span class="family__parents">김형석 · 이정자</span>
         <span class="family__rel">의 아들</span>
         <span class="family__name">도훈</span>
       </div>
       <div class="family__row">
-        <span class="family__parents">이○○ · ○○○</span>
+        <span class="family__parents">이창규 · 박순미</span>
         <span class="family__rel">의 딸</span>
         <span class="family__name">영현</span>
       </div>
@@ -487,9 +523,10 @@ a{color:inherit}
         <!-- 2026-12-01 = 화요일 -->
         <div class="cal__cell"></div><div class="cal__cell"></div>
         <div class="cal__cell">1</div><div class="cal__cell">2</div><div class="cal__cell">3</div>
-        <div class="cal__cell">4</div><div class="cal__cell">5</div>
+        <div class="cal__cell">4</div>
+        <div class="cal__cell cal__cell--day"><span>5</span></div>
 
-        <div class="cal__cell cal__cell--day"><span>6</span></div>
+        <div class="cal__cell cal__cell--sun">6</div>
         <div class="cal__cell">7</div><div class="cal__cell">8</div><div class="cal__cell">9</div>
         <div class="cal__cell">10</div><div class="cal__cell">11</div><div class="cal__cell">12</div>
 
@@ -506,40 +543,29 @@ a{color:inherit}
         <div class="cal__cell">31</div>
       </div>
 
-      <p class="cal__time">2026년 12월 6일 일요일 오후 3시 40분</p>
+      <p class="cal__time">2026년 12월 5일 토요일 오후 3시 40분</p>
       <p class="cal__dday" id="dday"></p>
-
-      <div class="cal__actions">
-        <a class="btn-line" id="gcal" target="_blank" rel="noopener">구글 캘린더</a>
-        <button class="btn-line" id="icsBtn">애플 · 기타 캘린더</button>
-      </div>
     </div>
   </section>
 
   <!-- ══════════ 5. GALLERY ══════════ -->
-  <section class="section section--tint reveal">
-    <div class="wrap">
-      <p class="kicker">Gallery</p>
-      <h2 class="title-ko">함께한 순간들</h2>
-    </div>
+  <section class="section section--tint wrap reveal">
+    <p class="kicker">Gallery</p>
+    <h2 class="title-ko">함께한 순간들</h2>
 
-    <div class="gallery__track" id="track">
-      <div class="gallery__item"><div class="frame ratio-34" data-label="01.jpg"><img src="./assets/images/01.jpg" alt="" loading="lazy" /></div></div>
-      <div class="gallery__item"><div class="frame ratio-34" data-label="02.jpg"><img src="./assets/images/02.jpg" alt="" loading="lazy" /></div></div>
-      <div class="gallery__item"><div class="frame ratio-34" data-label="03.jpg"><img src="./assets/images/03.jpg" alt="" loading="lazy" /></div></div>
-      <div class="gallery__item"><div class="frame ratio-34" data-label="04.jpg"><img src="./assets/images/04.jpg" alt="" loading="lazy" /></div></div>
-      <div class="gallery__item"><div class="frame ratio-34" data-label="05.jpg"><img src="./assets/images/05.jpg" alt="" loading="lazy" /></div></div>
-      <div class="gallery__item"><div class="frame ratio-34" data-label="06.jpg"><img src="./assets/images/06.jpg" alt="" loading="lazy" /></div></div>
-      <div class="gallery__item"><div class="frame ratio-34" data-label="07.jpg"><img src="./assets/images/07.jpg" alt="" loading="lazy" /></div></div>
-      <div class="gallery__item"><div class="frame ratio-34" data-label="08.jpg"><img src="./assets/images/08.jpg" alt="" loading="lazy" /></div></div>
-    </div>
-
-    <div class="gallery__meta">
-      <span id="galNow">01</span>
-      <span class="gallery__bar"><i id="galBar"></i></span>
-      <span id="galAll">08</span>
-    </div>
+    <div class="gallery__grid" id="galGrid"></div>
+    <button class="gallery__more" id="galMore" hidden>사진 더 보기</button>
   </section>
+
+  <!-- 전체화면 뷰어 -->
+  <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="사진 크게 보기">
+    <div class="lb__top">
+      <span id="lbCount">01 / 01</span>
+      <button class="lb__close" id="lbClose" aria-label="닫기">&times;</button>
+    </div>
+    <div class="lb__track" id="lbTrack"></div>
+    <p class="lb__hint">좌우로 넘겨보세요</p>
+  </div>
 
   <!-- ══════════ 6. LOCATION ══════════ -->
   <section class="section wrap reveal">
@@ -616,7 +642,7 @@ a{color:inherit}
               <button class="copy" data-copy="○○은행 000-0000-0000">복사</button>
             </div>
             <div class="acct__row">
-              <div class="acct__info"><b>아버지 김○○</b>○○은행 000-0000-0000</div>
+              <div class="acct__info"><b>아버지 김형석</b>○○은행 000-0000-0000</div>
               <button class="copy" data-copy="○○은행 000-0000-0000">복사</button>
             </div>
           </div>
@@ -632,7 +658,7 @@ a{color:inherit}
               <button class="copy" data-copy="○○은행 000-0000-0000">복사</button>
             </div>
             <div class="acct__row">
-              <div class="acct__info"><b>아버지 이○○</b>○○은행 000-0000-0000</div>
+              <div class="acct__info"><b>아버지 이창규</b>○○은행 000-0000-0000</div>
               <button class="copy" data-copy="○○은행 000-0000-0000">복사</button>
             </div>
           </div>
@@ -749,53 +775,90 @@ a{color:inherit}
   });
 
   /* ---------- D-DAY ---------- */
-  var WED = new Date(2026, 11, 6, 15, 40, 0);
   var today = new Date(); today.setHours(0,0,0,0);
-  var wedDay = new Date(2026, 11, 6);
+  var wedDay = new Date(2026, 11, 5);
   var diff = Math.round((wedDay - today) / 86400000);
   document.getElementById("dday").textContent =
     diff > 0 ? "D − " + diff : (diff === 0 ? "The Day" : "D + " + Math.abs(diff));
 
-  /* ---------- 캘린더 등록 ---------- */
-  var TITLE = "김도훈 ♥ 이영현 결혼식";
-  var PLACE = "웨딩시티 아모르홀 (서울특별시 구로구 새말로 97 신도림테크노마트 8층)";
-  var START = "20261206T064000Z", END = "20261206T080000Z"; // KST 15:40 ~ 17:00
+  /* ---------- 갤러리 ----------
+     ▼ 사진 장수만 바꾸면 됩니다. assets/images/01.jpg ~ 지정한 번호까지 자동으로 들어갑니다.
+     처음에는 8장만 보이고, 나머지는 '사진 더 보기'를 누르면 펼쳐집니다.              */
+  var PHOTO_COUNT = 12;
+  var PHOTO_EXT   = ".jpg";
+  var FIRST_VIEW  = 8;
 
-  document.getElementById("gcal").href =
-    "https://calendar.google.com/calendar/render?action=TEMPLATE" +
-    "&text=" + encodeURIComponent(TITLE) +
-    "&dates=" + START + "/" + END +
-    "&location=" + encodeURIComponent(PLACE) +
-    "&details=" + encodeURIComponent("오후 3시 40분 예식");
+  function pad(n){ return ("0" + n).slice(-2); }
 
-  document.getElementById("icsBtn").addEventListener("click", function(){
-    var ics = [
-      "BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//wedding//KR","BEGIN:VEVENT",
-      "UID:" + Date.now() + "@wedding",
-      "DTSTAMP:" + START, "DTSTART:" + START, "DTEND:" + END,
-      "SUMMARY:" + TITLE, "LOCATION:" + PLACE,
-      "BEGIN:VALARM","TRIGGER:-P1D","ACTION:DISPLAY","DESCRIPTION:내일은 결혼식","END:VALARM",
-      "END:VEVENT","END:VCALENDAR"
-    ].join("\r\n");
-    var url = URL.createObjectURL(new Blob([ics], { type: "text/calendar;charset=utf-8" }));
-    var a = document.createElement("a");
-    a.href = url; a.download = "wedding.ics"; a.click();
-    setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
+  var grid = document.getElementById("galGrid");
+  var more = document.getElementById("galMore");
+  var lb = document.getElementById("lb"),
+      lbTrack = document.getElementById("lbTrack"),
+      lbCount = document.getElementById("lbCount");
+
+  var names = [];
+  for (var i = 1; i <= PHOTO_COUNT; i++) names.push(pad(i) + PHOTO_EXT);
+
+  names.forEach(function(name, idx){
+    var cell = document.createElement("button");
+    cell.className = "gallery__cell";
+    cell.type = "button";
+    cell.dataset.label = name;
+    cell.setAttribute("aria-label", "사진 " + (idx + 1) + " 크게 보기");
+    if (idx >= FIRST_VIEW) cell.hidden = true;
+
+    var img = document.createElement("img");
+    img.src = "./assets/images/" + name;
+    img.alt = "";
+    img.loading = "lazy";
+    img.addEventListener("load", function(){ cell.classList.add("has-photo"); });
+
+    cell.appendChild(img);
+    cell.addEventListener("click", function(){ openLb(idx); });
+    grid.appendChild(cell);
   });
 
-  /* ---------- 갤러리 ---------- */
-  var track = document.getElementById("track");
-  var items = track.querySelectorAll(".gallery__item");
-  var now = document.getElementById("galNow"), bar = document.getElementById("galBar");
-  document.getElementById("galAll").textContent = ("0" + items.length).slice(-2);
-  bar.style.width = (100 / items.length) + "%";
-  function pad(n){ return ("0" + n).slice(-2); }
-  track.addEventListener("scroll", function(){
-    var max = track.scrollWidth - track.clientWidth;
-    var p = max > 0 ? track.scrollLeft / max : 0;
-    var i = Math.min(items.length - 1, Math.round(p * (items.length - 1)));
-    now.textContent = pad(i + 1);
-    bar.style.transform = "translateX(" + (i * 100) + "%)";
+  if (PHOTO_COUNT > FIRST_VIEW){
+    more.hidden = false;
+    more.addEventListener("click", function(){
+      grid.querySelectorAll(".gallery__cell[hidden]").forEach(function(c){ c.hidden = false; });
+      more.hidden = true;
+    });
+  }
+
+  names.forEach(function(name){
+    var s = document.createElement("div");
+    s.className = "lb__slide";
+    var im = document.createElement("img");
+    im.alt = ""; im.dataset.src = "./assets/images/" + name;
+    s.appendChild(im); lbTrack.appendChild(s);
+  });
+
+  function openLb(idx){
+    lbTrack.querySelectorAll("img").forEach(function(im){
+      if (!im.src && im.dataset.src) im.src = im.dataset.src;
+    });
+    lb.classList.add("open");
+    document.body.style.overflow = "hidden";
+    requestAnimationFrame(function(){
+      lb.classList.add("show");
+      lbTrack.scrollLeft = idx * lbTrack.clientWidth;
+      lbCount.textContent = pad(idx + 1) + " / " + pad(names.length);
+    });
+  }
+  function closeLb(){
+    lb.classList.remove("show");
+    document.body.style.overflow = "";
+    setTimeout(function(){ lb.classList.remove("open"); }, 280);
+  }
+  document.getElementById("lbClose").addEventListener("click", closeLb);
+  lb.addEventListener("click", function(e){ if (e.target === lb) closeLb(); });
+  document.addEventListener("keydown", function(e){ if (e.key === "Escape" && lb.classList.contains("open")) closeLb(); });
+  lbTrack.addEventListener("scroll", function(){
+    var w = lbTrack.clientWidth;
+    if (!w) return;
+    var i = Math.min(names.length - 1, Math.round(lbTrack.scrollLeft / w));
+    lbCount.textContent = pad(i + 1) + " / " + pad(names.length);
   }, { passive: true });
 
   /* ---------- 아코디언 ---------- */
@@ -847,41 +910,107 @@ a{color:inherit}
   });
   document.getElementById("shareBtn").addEventListener("click", function(){
     if (navigator.share){
-      navigator.share({ title: "김도훈 · 이영현 결혼합니다", text: "2026년 12월 6일 일요일 오후 3시 40분 · 웨딩시티 아모르홀", url: location.href }).catch(function(){});
+      navigator.share({ title: "김도훈 · 이영현 결혼합니다", text: "2026년 12월 5일 토요일 오후 3시 40분 · 웨딩시티 아모르홀", url: location.href }).catch(function(){});
     } else {
       copy(location.href, this, "링크 복사됨");
     }
   });
 
-  /* ---------- 방명록 (임시 저장소 — 배포 시 Firebase 등으로 교체) ---------- */
+  /* ---------- 방명록 ----------
+     ▼ 구글 Apps Script 웹앱 주소를 여기에 붙여넣으세요.
+       비워두면 브라우저에만 저장되는 미리보기 모드로 동작합니다.          */
+  var SHEET_API = "https://script.google.com/macros/s/AKfycbxomevMICFV4kTY-2q_XBXcLskSdxxjD0A5toe6VdMllWhfhAsARk-JWeeiGQ2Anp1fyA/exec";
+
   var KEY = "guestbook_kdh_lyh";
   var list = document.getElementById("gbList");
+  var nameEl = document.getElementById("gbName");
+  var msgEl  = document.getElementById("gbMsg");
+  var sendEl = document.getElementById("gbSend");
 
-  function load(){
-    try { return JSON.parse(localStorage.getItem(KEY) || "[]"); } catch(e){ return []; }
+  function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+
+  /* JSONP — 별도 서버 설정 없이 구글 시트와 주고받기 위한 방식 */
+  var jsonpSeq = 0;
+  function jsonp(params, onDone, onFail){
+    var cb = "gbcb" + (++jsonpSeq) + "_" + Date.now();
+    var timer = setTimeout(function(){ cleanup(); onFail && onFail(); }, 12000);
+    function cleanup(){
+      clearTimeout(timer);
+      try { delete window[cb]; } catch(e){ window[cb] = undefined; }
+      if (tag.parentNode) tag.parentNode.removeChild(tag);
+    }
+    window[cb] = function(res){ cleanup(); onDone(res); };
+    var qs = Object.keys(params).map(function(k){
+      return encodeURIComponent(k) + "=" + encodeURIComponent(params[k]);
+    }).join("&");
+    var tag = document.createElement("script");
+    tag.src = SHEET_API + "?callback=" + cb + "&" + qs;
+    tag.onerror = function(){ cleanup(); onFail && onFail(); };
+    document.body.appendChild(tag);
   }
-  function save(d){
-    try { localStorage.setItem(KEY, JSON.stringify(d)); } catch(e){}
-  }
-  function esc(s){ return s.replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
-  function render(){
-    var d = load();
-    if (!d.length){ list.innerHTML = '<p class="gb__empty">첫 번째 축하 메시지를 남겨주세요</p>'; return; }
-    list.innerHTML = d.map(function(x){
+
+  function localLoad(){ try { return JSON.parse(localStorage.getItem(KEY) || "[]"); } catch(e){ return []; } }
+  function localSave(d){ try { localStorage.setItem(KEY, JSON.stringify(d)); } catch(e){} }
+
+  function paint(items){
+    if (!items || !items.length){
+      list.innerHTML = '<p class="gb__empty">첫 번째 축하 메시지를 남겨주세요</p>';
+      return;
+    }
+    list.innerHTML = items.map(function(x){
       return '<div class="gb__item"><div class="gb__top"><span class="gb__name">' + esc(x.n) +
-             '</span><span class="gb__date">' + x.d + '</span></div><p class="gb__msg">' + esc(x.m) + '</p></div>';
+             '</span><span class="gb__date">' + esc(x.d) + '</span></div><p class="gb__msg">' + esc(x.m) + '</p></div>';
     }).join("");
   }
-  document.getElementById("gbSend").addEventListener("click", function(){
-    var n = document.getElementById("gbName"), m = document.getElementById("gbMsg");
-    if (!n.value.trim() || !m.value.trim()){ (n.value.trim() ? m : n).focus(); return; }
+
+  function refresh(){
+    if (!SHEET_API){ paint(localLoad()); return; }
+    list.innerHTML = '<p class="gb__empty">메시지를 불러오는 중입니다</p>';
+    jsonp({ action: "list" }, function(res){
+      if (res && res.ok) paint(res.items);
+      else list.innerHTML = '<p class="gb__empty">메시지를 불러오지 못했습니다. 잠시 후 새로고침해 주세요</p>';
+    }, function(){
+      list.innerHTML = '<p class="gb__empty">메시지를 불러오지 못했습니다. 잠시 후 새로고침해 주세요</p>';
+    });
+  }
+
+  function today(){
     var t = new Date();
-    var d = load();
-    d.unshift({ n: n.value.trim(), m: m.value.trim(),
-                d: t.getFullYear() + "." + pad(t.getMonth()+1) + "." + pad(t.getDate()) });
-    save(d); n.value = ""; m.value = ""; render();
+    return t.getFullYear() + "." + pad(t.getMonth()+1) + "." + pad(t.getDate());
+  }
+
+  sendEl.addEventListener("click", function(){
+    var n = nameEl.value.trim(), m = msgEl.value.trim();
+    if (!n){ nameEl.focus(); return; }
+    if (!m){ msgEl.focus(); return; }
+
+    if (!SHEET_API){
+      var d = localLoad();
+      d.unshift({ n: n, m: m, d: today() });
+      localSave(d); nameEl.value = ""; msgEl.value = ""; paint(d);
+      return;
+    }
+
+    sendEl.disabled = true;
+    sendEl.textContent = "남기는 중";
+    jsonp({ action: "add", n: n, m: m }, function(res){
+      sendEl.disabled = false;
+      if (res && res.ok){
+        sendEl.textContent = "메시지를 남겼습니다";
+        nameEl.value = ""; msgEl.value = "";
+        refresh();
+      } else {
+        sendEl.textContent = "다시 시도해 주세요";
+      }
+      setTimeout(function(){ sendEl.textContent = "메시지 남기기"; }, 2200);
+    }, function(){
+      sendEl.disabled = false;
+      sendEl.textContent = "다시 시도해 주세요";
+      setTimeout(function(){ sendEl.textContent = "메시지 남기기"; }, 2200);
+    });
   });
-  render();
+
+  refresh();
 })();
 </script>
 </body>
