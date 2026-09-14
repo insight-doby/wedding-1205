@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>김도훈 · 이영현 결혼합니다</title>
+
+<!-- ====== 카카오톡/링크 공유 미리보기 ====== -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="김도훈 · 이영현 결혼합니다" />
+<meta property="og:description" content="2026년 12월 6일 일요일 오후 3시 40분 · 웨딩시티 아모르홀" />
+<!-- 배포 후 실제 주소로 바꿔주세요 -->
+<meta property="og:image" content="https://사용자이름.github.io/레포이름/assets/images/share.jpg" />
+<meta property="og:url" content="https://사용자이름.github.io/레포이름/" />
+<meta name="theme-color" content="#FFFFFF" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300&display=swap" rel="stylesheet" />
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+
+<style>
+/* ============================================================
+   TOKENS
+   ============================================================ */
+:root{
+  --paper:#FFFFFF;
+  --paper-2:#F2F5F6;
+  --mist:#E7EBEC;
+  --ink:#1A1B1F;
+  --ink-2:#4B5156;
+  --ink-3:#9AA1A5;
+  --line:#E3E7E9;
+  --cold:#35788B;
+  --sun:#C96F63;
+
+  --sans:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --serif:"Newsreader",Georgia,"Times New Roman",serif;
+
+  --gutter:26px;
+  --section:clamp(84px,17vw,124px);
+  --ease:cubic-bezier(.22,.61,.36,1);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--mist);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:15px;
+  line-height:1.9;
+  letter-spacing:-.01em;
+  -webkit-font-smoothing:antialiased;
+}
+img{display:block;max-width:100%}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+a{color:inherit}
+
+/* 모바일 폭 고정 프레임 (데스크톱에서도 세로형 유지) */
+.shell{
+  max-width:470px;
+  margin:0 auto;
+  background:var(--paper);
+  overflow:hidden;
+  position:relative;
+  box-shadow:0 0 60px rgba(0,0,0,.06);
+}
+
+/* ============================================================
+   공통 요소
+   ============================================================ */
+.wrap{padding-left:var(--gutter);padding-right:var(--gutter)}
+.section{padding-top:var(--section);padding-bottom:var(--section)}
+.section--tint{background:var(--paper-2)}
+
+.kicker{
+  font-family:var(--serif);
+  font-size:13px;
+  font-style:italic;
+  font-weight:300;
+  letter-spacing:.06em;
+  color:var(--cold);
+  margin:0 0 20px;
+}
+.title-ko{
+  font-size:17px;
+  font-weight:600;
+  letter-spacing:-.02em;
+  margin:0 0 34px;
+}
+.rule{height:1px;background:var(--line);border:0;margin:0}
+.rule--short{width:34px;height:1px;background:var(--cold);margin:0 0 22px}
+
+/* 스크롤 등장 */
+.reveal{opacity:0;transform:translateY(14px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+
+/* 사진 자리 (파일이 없으면 안내 박스가 보입니다) */
+.frame{
+  position:relative;
+  background:var(--paper-2);
+  overflow:hidden;
+}
+.frame::after{
+  content:attr(data-label);
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--serif);font-size:12px;letter-spacing:.08em;
+  color:var(--ink-3);
+  border:1px solid var(--line);
+  pointer-events:none;
+}
+.frame.has-photo::after{display:none}
+.frame img{width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .9s var(--ease)}
+.frame.has-photo img{opacity:1}
+.ratio-45{aspect-ratio:4/5}
+.ratio-34{aspect-ratio:3/4}
+.ratio-11{aspect-ratio:1/1}
+
+/* ============================================================
+   1. COVER
+   ============================================================ */
+.cover{
+  position:relative;
+  height:min(84svh,660px);
+  min-height:500px;
+  background:var(--paper-2);
+  overflow:hidden;
+}
+.cover__photo{position:absolute;inset:0}
+.cover__photo::after{
+  content:attr(data-label);
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--serif);font-size:12px;letter-spacing:.08em;color:var(--ink-3);
+}
+.cover__photo.has-photo::after{display:none}
+.cover__photo img{width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.6s var(--ease)}
+.cover__photo.has-photo img{opacity:1}
+.cover__veil{
+  position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(255,255,255,.55) 0%,rgba(255,255,255,.06) 34%,rgba(20,26,30,.34) 100%);
+}
+#snow{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+
+.cover__inner{
+  position:relative;height:100%;
+  display:flex;flex-direction:column;justify-content:space-between;
+  padding:calc(40px + env(safe-area-inset-top)) var(--gutter) 38px;
+  text-align:center;
+}
+.cover__mark{
+  font-family:var(--serif);font-style:italic;font-weight:300;
+  font-size:15px;letter-spacing:.14em;color:var(--cold);
+}
+.cover__foot{color:#fff}
+.cover__names{
+  font-size:26px;font-weight:500;letter-spacing:.14em;
+  margin:0 0 16px;
+  text-shadow:0 1px 18px rgba(0,0,0,.28);
+}
+.cover__date{
+  font-family:var(--serif);font-weight:300;
+  font-size:19px;letter-spacing:.08em;
+  margin:0 0 6px;
+  text-shadow:0 1px 18px rgba(0,0,0,.28);
+}
+.cover__venue{
+  font-size:12.5px;letter-spacing:.02em;opacity:.88;margin:0;
+  text-shadow:0 1px 14px rgba(0,0,0,.3);
+}
+.cover__cue{
+  width:1px;height:38px;margin:26px auto 0;
+  background:linear-gradient(180deg,rgba(255,255,255,.75),rgba(255,255,255,0));
+}
+@media (prefers-reduced-motion:no-preference){
+  .cover__cue{animation:cue 2.6s var(--ease) infinite}
+  @keyframes cue{0%,100%{opacity:.25;transform:scaleY(.5);transform-origin:top}50%{opacity:1;transform:scaleY(1)}}
+}
+/* 로드 시퀀스 */
+.cover__mark,.cover__names,.cover__date,.cover__venue,.cover__cue{
+  opacity:0;transform:translateY(12px);
+  animation:rise 1.5s var(--ease) forwards;
+}
+.cover__mark{animation-delay:.25s}
+.cover__names{animation-delay:.6s}
+.cover__date{animation-delay:.85s}
+.cover__venue{animation-delay:1.05s}
+.cover__cue{animation-delay:1.35s}
+@keyframes rise{to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){
+  .cover__mark,.cover__names,.cover__date,.cover__venue,.cover__cue{animation:none;opacity:1;transform:none}
+  .reveal{opacity:1;transform:none;transition:none}
+}
+
+/* BGM 버튼 */
+.bgm{
+  position:fixed;top:calc(16px + env(safe-area-inset-top));z-index:60;
+  width:38px;height:38px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;gap:2px;
+  background:rgba(255,255,255,.78);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  border:1px solid rgba(227,231,233,.95);
+  /* shell 폭 기준 오른쪽 정렬 */
+  left:50%;margin-left:calc(min(470px,100vw)/2 - 54px);
+}
+.bgm span{display:block;width:2px;height:8px;background:var(--cold);border-radius:1px;transition:height .3s var(--ease)}
+.bgm[aria-pressed="true"] span{animation:eq 1.1s ease-in-out infinite}
+.bgm[aria-pressed="true"] span:nth-child(2){animation-delay:.18s}
+.bgm[aria-pressed="true"] span:nth-child(3){animation-delay:.36s}
+.bgm[aria-pressed="false"] span{height:4px;opacity:.5}
+@keyframes eq{0%,100%{height:4px}50%{height:13px}}
+
+/* ============================================================
+   2. TWO WINTERS
+   ============================================================ */
+.winters{display:flex;align-items:center;justify-content:center;gap:22px;text-align:center}
+.winters__col{flex:1}
+.winters__date{font-family:var(--serif);font-size:20px;font-weight:300;letter-spacing:.04em;display:block;margin-bottom:8px}
+.winters__cap{font-size:12px;color:var(--ink-3);letter-spacing:.02em}
+.winters__link{width:44px;height:1px;background:var(--line);flex:0 0 auto}
+.winters__note{
+  text-align:center;margin:34px 0 0;
+  font-size:13.5px;color:var(--ink-2);line-height:2
+}
+
+/* ============================================================
+   3. INVITATION
+   ============================================================ */
+.invite__body{
+  font-size:14.5px;line-height:2.15;color:var(--ink-2);
+  letter-spacing:-.005em;margin:0;
+  word-break:keep-all;
+}
+.invite__body p{margin:0 0 20px}
+.invite__body p:last-child{margin-bottom:0}
+
+.family{margin-top:44px;padding-top:30px;border-top:1px solid var(--line)}
+.family__row{display:flex;align-items:baseline;gap:10px;font-size:14px;padding:9px 0}
+.family__parents{color:var(--ink-2);flex:0 0 auto}
+.family__rel{color:var(--ink-3);font-size:12.5px}
+.family__name{font-weight:600;letter-spacing:.02em}
+
+.contact{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:26px}
+.contact a{
+  display:flex;align-items:center;justify-content:center;gap:7px;
+  padding:13px 0;border:1px solid var(--line);
+  font-size:13px;text-decoration:none;color:var(--ink-2);
+  transition:border-color .25s var(--ease),color .25s var(--ease);
+}
+.contact a:active{border-color:var(--cold);color:var(--cold)}
+
+/* ============================================================
+   4. CALENDAR
+   ============================================================ */
+.cal{max-width:310px;margin:0 auto;text-align:center}
+.cal__head{font-family:var(--serif);font-size:15px;letter-spacing:.12em;color:var(--ink-2);margin:0 0 20px}
+.cal__grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px 0}
+.cal__dow{font-size:11px;color:var(--ink-3);padding-bottom:10px;letter-spacing:.04em}
+.cal__dow:first-child{color:var(--sun)}
+.cal__cell{
+  font-size:13.5px;color:var(--ink-2);
+  aspect-ratio:1;display:flex;align-items:center;justify-content:center;
+  font-variant-numeric:tabular-nums;
+}
+.cal__cell--sun{color:var(--sun)}
+.cal__cell--day{
+  position:relative;color:#fff;font-weight:600;isolation:isolate;
+}
+.cal__cell--day::before{
+  content:"";position:absolute;width:34px;height:34px;border-radius:50%;
+  background:var(--cold);z-index:0;
+}
+.cal__cell--day span{position:relative;z-index:1}
+.cal__time{margin:24px 0 0;font-size:13.5px;color:var(--ink-2);letter-spacing:.01em}
+.cal__dday{
+  margin:10px 0 0;font-family:var(--serif);font-size:14px;
+  color:var(--cold);letter-spacing:.05em;
+}
+.cal__actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:30px}
+.btn-line{
+  display:flex;align-items:center;justify-content:center;
+  padding:13px 0;border:1px solid var(--line);
+  font-size:12.5px;color:var(--ink-2);text-decoration:none;
+  transition:border-color .25s var(--ease),color .25s var(--ease);
+}
+.btn-line:active{border-color:var(--cold);color:var(--cold)}
+
+/* ============================================================
+   5. GALLERY
+   ============================================================ */
+.gallery__track{
+  display:flex;gap:10px;
+  overflow-x:auto;scroll-snap-type:x mandatory;
+  padding:0 var(--gutter);
+  scrollbar-width:none;-webkit-overflow-scrolling:touch;
+}
+.gallery__track::-webkit-scrollbar{display:none}
+.gallery__item{flex:0 0 76%;scroll-snap-align:center}
+.gallery__meta{
+  display:flex;align-items:center;justify-content:center;gap:12px;
+  margin-top:20px;font-family:var(--serif);font-size:12px;color:var(--ink-3);
+  letter-spacing:.1em;font-variant-numeric:tabular-nums;
+}
+.gallery__bar{width:70px;height:1px;background:var(--line);position:relative}
+.gallery__bar i{
+  position:absolute;left:0;top:0;height:1px;background:var(--cold);
+  transition:width .4s var(--ease),transform .4s var(--ease);
+}
+
+/* ============================================================
+   6. LOCATION
+   ============================================================ */
+.loc__name{font-size:17px;font-weight:600;margin:0 0 8px;letter-spacing:-.01em}
+.loc__addr{font-size:13.5px;color:var(--ink-2);margin:0 0 4px;word-break:keep-all}
+.loc__tel{font-size:13px;color:var(--ink-3);margin:0}
+.map{margin:28px 0 14px;aspect-ratio:4/3;border:1px solid var(--line);position:relative;overflow:hidden;background:var(--paper-2)}
+.map iframe{width:100%;height:100%;border:0}
+.map__ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:12px;color:var(--ink-3);letter-spacing:.06em}
+.map-links{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+
+.acc{border-top:1px solid var(--line);margin-top:40px}
+.acc__item{border-bottom:1px solid var(--line)}
+.acc__btn{
+  width:100%;display:flex;align-items:center;justify-content:space-between;
+  padding:19px 2px;font-size:14px;text-align:left;letter-spacing:-.01em;
+}
+.acc__sign{position:relative;width:11px;height:11px;flex:0 0 auto}
+.acc__sign::before,.acc__sign::after{
+  content:"";position:absolute;background:var(--ink-3);
+  left:0;top:5px;width:11px;height:1px;transition:transform .35s var(--ease);
+}
+.acc__sign::after{transform:rotate(90deg)}
+.acc__btn[aria-expanded="true"] .acc__sign::after{transform:rotate(0)}
+.acc__panel{overflow:hidden;height:0;transition:height .42s var(--ease)}
+.acc__inner{padding:0 2px 24px;font-size:13px;line-height:1.95;color:var(--ink-2)}
+.acc__inner strong{display:block;font-size:12.5px;font-weight:600;color:var(--ink);margin:16px 0 5px;letter-spacing:.01em}
+.acc__inner strong:first-child{margin-top:0}
+.acc__inner em{font-style:normal;color:var(--ink-3);font-size:12.5px}
+
+/* ============================================================
+   7. ACCOUNT
+   ============================================================ */
+.acct{margin-top:30px}
+.acct__row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0}
+.acct__row + .acct__row{border-top:1px dashed var(--line)}
+.acct__info{font-size:13px;color:var(--ink-2);line-height:1.7}
+.acct__info b{display:block;font-weight:600;color:var(--ink);font-size:12.5px;margin-bottom:2px}
+.copy{
+  flex:0 0 auto;padding:8px 13px;border:1px solid var(--line);
+  font-size:11.5px;color:var(--ink-3);letter-spacing:.02em;
+  transition:all .25s var(--ease);
+}
+.copy.done{border-color:var(--cold);color:var(--cold)}
+
+/* ============================================================
+   8. GUESTBOOK
+   ============================================================ */
+.gb__form{display:grid;gap:9px;margin-bottom:28px}
+.gb__form input,.gb__form textarea{
+  width:100%;padding:13px 14px;border:1px solid var(--line);
+  background:var(--paper);font-family:inherit;font-size:13.5px;color:var(--ink);
+  border-radius:0;-webkit-appearance:none;
+}
+.gb__form textarea{min-height:92px;resize:vertical;line-height:1.8}
+.gb__form input:focus,.gb__form textarea:focus{outline:none;border-color:var(--cold)}
+.gb__submit{
+  padding:14px 0;background:var(--ink);color:var(--paper);
+  font-size:13px;letter-spacing:.04em;transition:opacity .25s var(--ease);
+}
+.gb__submit:active{opacity:.8}
+.gb__list{display:grid;gap:0}
+.gb__empty{text-align:center;font-size:13px;color:var(--ink-3);padding:26px 0}
+.gb__item{padding:20px 0;border-top:1px solid var(--line)}
+.gb__top{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:7px}
+.gb__name{font-size:13px;font-weight:600}
+.gb__date{font-family:var(--serif);font-size:11px;color:var(--ink-3);letter-spacing:.04em}
+.gb__msg{font-size:13.5px;color:var(--ink-2);line-height:1.9;margin:0;word-break:keep-all;white-space:pre-wrap}
+
+/* ============================================================
+   9. CLOSING
+   ============================================================ */
+.closing{text-align:center;padding-bottom:calc(var(--section) + env(safe-area-inset-bottom))}
+.closing__quote{
+  font-family:var(--serif);font-style:italic;font-weight:300;
+  font-size:17px;line-height:1.85;color:var(--ink-2);margin:0 0 30px;
+}
+.closing__names{font-size:14px;letter-spacing:.14em;color:var(--ink);margin:0 0 34px}
+.share{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+
+:focus-visible{outline:2px solid var(--cold);outline-offset:3px}
+</style>
+</head>
+
+<body>
+<div class="shell">
+
+  <!-- BGM -->
+  <audio id="bgm" loop preload="none" src="./assets/audio/bgm.mp3"></audio>
+  <button class="bgm" id="bgmBtn" aria-pressed="false" aria-label="배경음악 켜기">
+    <span></span><span></span><span></span>
+  </button>
+
+  <!-- ══════════ 1. COVER ══════════ -->
+  <header class="cover">
+    <div class="cover__photo" id="coverPhoto" data-label="cover.jpg">
+      <img src="./assets/images/cover.jpg" alt="김도훈 이영현 웨딩 사진" />
+    </div>
+    <div class="cover__veil"></div>
+    <canvas id="snow"></canvas>
+
+    <div class="cover__inner">
+      <p class="cover__mark">Two Winters</p>
+      <div class="cover__foot">
+        <h1 class="cover__names">김도훈 &nbsp;·&nbsp; 이영현</h1>
+        <p class="cover__date">6 December 2026</p>
+        <p class="cover__venue">일요일 오후 3시 40분 · 웨딩시티 아모르홀</p>
+        <div class="cover__cue"></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ══════════ 2. TWO WINTERS ══════════ -->
+  <section class="section wrap reveal">
+    <div class="winters">
+      <div class="winters__col">
+        <span class="winters__date">2025.01.08</span>
+        <span class="winters__cap">처음 만난 날</span>
+      </div>
+      <div class="winters__link"></div>
+      <div class="winters__col">
+        <span class="winters__date">2026.12.06</span>
+        <span class="winters__cap">평생을 약속한 날</span>
+      </div>
+    </div>
+    <p class="winters__note">가장 추웠던 계절에 시작해,<br />두 번의 겨울을 지나 이 자리에 섭니다.</p>
+  </section>
+
+  <!-- ══════════ 3. INVITATION ══════════ -->
+  <section class="section section--tint wrap reveal">
+    <div class="frame ratio-45" data-label="invitation.jpg" style="margin-bottom:46px">
+      <img src="./assets/images/invitation.jpg" alt="" />
+    </div>
+
+    <p class="kicker">Invitation</p>
+    <h2 class="title-ko">초대합니다</h2>
+
+    <div class="invite__body">
+      <p>유난히 추웠던 2025년 1월, 언 손을 맞잡으며 둘만의 계절을 시작했습니다.</p>
+      <p>두 번의 겨울을 지나오는 동안 우리는 서로에게 가장 든든한 쉼터이자 묵묵히 곁을 지켜주는 존재가 되었습니다.</p>
+      <p>다시 돌아온 12월의 겨울날, 지나온 날들처럼 담담하게 평생을 나란히 걷겠습니다.</p>
+      <p>저희 두 사람의 다정한 첫걸음을 따뜻한 마음으로 축복해 주시면 감사하겠습니다.</p>
+    </div>
+
+    <!-- ⚠️ 혼주 성함을 채워주세요 -->
+    <div class="family">
+      <div class="family__row">
+        <span class="family__parents">김○○ · ○○○</span>
+        <span class="family__rel">의 아들</span>
+        <span class="family__name">도훈</span>
+      </div>
+      <div class="family__row">
+        <span class="family__parents">이○○ · ○○○</span>
+        <span class="family__rel">의 딸</span>
+        <span class="family__name">영현</span>
+      </div>
+
+      <div class="contact">
+        <a href="tel:01000000000">신랑에게 전화</a>
+        <a href="tel:01000000000">신부에게 전화</a>
+        <a href="sms:01000000000">신랑에게 문자</a>
+        <a href="sms:01000000000">신부에게 문자</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ 4. CALENDAR ══════════ -->
+  <section class="section wrap reveal">
+    <div class="cal">
+      <p class="cal__head">DECEMBER 2026</p>
+      <div class="cal__grid">
+        <div class="cal__dow">S</div><div class="cal__dow">M</div><div class="cal__dow">T</div>
+        <div class="cal__dow">W</div><div class="cal__dow">T</div><div class="cal__dow">F</div>
+        <div class="cal__dow">S</div>
+        <!-- 2026-12-01 = 화요일 -->
+        <div class="cal__cell"></div><div class="cal__cell"></div>
+        <div class="cal__cell">1</div><div class="cal__cell">2</div><div class="cal__cell">3</div>
+        <div class="cal__cell">4</div><div class="cal__cell">5</div>
+
+        <div class="cal__cell cal__cell--day"><span>6</span></div>
+        <div class="cal__cell">7</div><div class="cal__cell">8</div><div class="cal__cell">9</div>
+        <div class="cal__cell">10</div><div class="cal__cell">11</div><div class="cal__cell">12</div>
+
+        <div class="cal__cell cal__cell--sun">13</div>
+        <div class="cal__cell">14</div><div class="cal__cell">15</div><div class="cal__cell">16</div>
+        <div class="cal__cell">17</div><div class="cal__cell">18</div><div class="cal__cell">19</div>
+
+        <div class="cal__cell cal__cell--sun">20</div>
+        <div class="cal__cell">21</div><div class="cal__cell">22</div><div class="cal__cell">23</div>
+        <div class="cal__cell">24</div><div class="cal__cell">25</div><div class="cal__cell">26</div>
+
+        <div class="cal__cell cal__cell--sun">27</div>
+        <div class="cal__cell">28</div><div class="cal__cell">29</div><div class="cal__cell">30</div>
+        <div class="cal__cell">31</div>
+      </div>
+
+      <p class="cal__time">2026년 12월 6일 일요일 오후 3시 40분</p>
+      <p class="cal__dday" id="dday"></p>
+
+      <div class="cal__actions">
+        <a class="btn-line" id="gcal" target="_blank" rel="noopener">구글 캘린더</a>
+        <button class="btn-line" id="icsBtn">애플 · 기타 캘린더</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ 5. GALLERY ══════════ -->
+  <section class="section section--tint reveal">
+    <div class="wrap">
+      <p class="kicker">Gallery</p>
+      <h2 class="title-ko">함께한 순간들</h2>
+    </div>
+
+    <div class="gallery__track" id="track">
+      <div class="gallery__item"><div class="frame ratio-34" data-label="01.jpg"><img src="./assets/images/01.jpg" alt="" loading="lazy" /></div></div>
+      <div class="gallery__item"><div class="frame ratio-34" data-label="02.jpg"><img src="./assets/images/02.jpg" alt="" loading="lazy" /></div></div>
+      <div class="gallery__item"><div class="frame ratio-34" data-label="03.jpg"><img src="./assets/images/03.jpg" alt="" loading="lazy" /></div></div>
+      <div class="gallery__item"><div class="frame ratio-34" data-label="04.jpg"><img src="./assets/images/04.jpg" alt="" loading="lazy" /></div></div>
+      <div class="gallery__item"><div class="frame ratio-34" data-label="05.jpg"><img src="./assets/images/05.jpg" alt="" loading="lazy" /></div></div>
+      <div class="gallery__item"><div class="frame ratio-34" data-label="06.jpg"><img src="./assets/images/06.jpg" alt="" loading="lazy" /></div></div>
+      <div class="gallery__item"><div class="frame ratio-34" data-label="07.jpg"><img src="./assets/images/07.jpg" alt="" loading="lazy" /></div></div>
+      <div class="gallery__item"><div class="frame ratio-34" data-label="08.jpg"><img src="./assets/images/08.jpg" alt="" loading="lazy" /></div></div>
+    </div>
+
+    <div class="gallery__meta">
+      <span id="galNow">01</span>
+      <span class="gallery__bar"><i id="galBar"></i></span>
+      <span id="galAll">08</span>
+    </div>
+  </section>
+
+  <!-- ══════════ 6. LOCATION ══════════ -->
+  <section class="section wrap reveal">
+    <p class="kicker">Location</p>
+    <h2 class="title-ko">오시는 길</h2>
+
+    <p class="loc__name">웨딩시티 아모르홀</p>
+    <p class="loc__addr">서울특별시 구로구 새말로 97<br />신도림테크노마트 8층</p>
+    <p class="loc__tel">축복을, 기념을, 추억을 위한 소중한 발걸음</p>
+
+    <div class="map">
+      <span class="map__ph">map</span>
+      <!-- 카카오맵/네이버지도 지도 iframe 또는 지도 이미지를 넣어주세요 -->
+    </div>
+
+    <div class="map-links">
+      <a class="btn-line" href="https://map.naver.com/p/search/%EC%8B%A0%EB%8F%84%EB%A6%BC%ED%85%8C%ED%81%AC%EB%85%B8%EB%A7%88%ED%8A%B8" target="_blank" rel="noopener">네이버지도</a>
+      <a class="btn-line" href="https://map.kakao.com/link/search/%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C%20%EA%B5%AC%EB%A1%9C%EA%B5%AC%20%EC%83%88%EB%A7%90%EB%A1%9C%2097" target="_blank" rel="noopener">카카오맵</a>
+      <button class="btn-line" id="copyAddr">주소 복사</button>
+    </div>
+
+    <div class="acc" id="acc">
+      <div class="acc__item">
+        <button class="acc__btn" aria-expanded="false">지하철<span class="acc__sign"></span></button>
+        <div class="acc__panel"><div class="acc__inner">
+          <strong>1호선 · 2호선 신도림역</strong>
+          3번 출구에서 테크노마트 판매동 지하 1층과 바로 연결됩니다.
+        </div></div>
+      </div>
+
+      <div class="acc__item">
+        <button class="acc__btn" aria-expanded="false">버스<span class="acc__sign"></span></button>
+        <div class="acc__panel"><div class="acc__inner">
+          <strong>신도림역 (17-102) 하차 — 3번 출구 방면</strong>
+          지선 5619, 6411, 6511, 6611<br />
+          직행 5200<br />
+          마을 영등포09, 영등포12, 영등포13
+
+          <strong>신도림역 (17-001) 하차 — 1번 출구 방면</strong>
+          간선 160, 503, 600, 660, 662<br />
+          지선 5615, 5714, 6512, 6515, 6516, 6637, 6640A, 6713<br />
+          직행 301, 320<br />
+          일반 10, 11-1, 11-2, 83, 88, 530<br />
+          공항 6018<br />
+          <em>하차 후 지하보도를 이용해 3번 출구 방면으로 이동한 뒤, 테크노마트 판매동 지하 1층 통로를 이용해 주세요.</em>
+        </div></div>
+      </div>
+
+      <div class="acc__item">
+        <button class="acc__btn" aria-expanded="false">주차<span class="acc__sign"></span></button>
+        <div class="acc__panel"><div class="acc__inner">
+          테크노마트 지하주차장 B3~B7층을 이용해 주세요.<br />
+          <em>주차요원의 안내를 받으시면 편리합니다.</em>
+        </div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ 7. ACCOUNT ══════════ -->
+  <section class="section section--tint wrap reveal">
+    <p class="kicker">With Heart</p>
+    <h2 class="title-ko">마음 전하실 곳</h2>
+    <p style="font-size:13.5px;color:var(--ink-2);margin:0 0 6px;word-break:keep-all">
+      참석이 어려우신 분들을 위해 계좌번호를 남깁니다.<br />전해주시는 따뜻한 마음, 감사히 간직하겠습니다.
+    </p>
+
+    <div class="acc" id="acc2">
+      <div class="acc__item">
+        <button class="acc__btn" aria-expanded="false">신랑측 계좌번호<span class="acc__sign"></span></button>
+        <div class="acc__panel"><div class="acc__inner">
+          <div class="acct">
+            <div class="acct__row">
+              <div class="acct__info"><b>신랑 김도훈</b>○○은행 000-0000-0000</div>
+              <button class="copy" data-copy="○○은행 000-0000-0000">복사</button>
+            </div>
+            <div class="acct__row">
+              <div class="acct__info"><b>아버지 김○○</b>○○은행 000-0000-0000</div>
+              <button class="copy" data-copy="○○은행 000-0000-0000">복사</button>
+            </div>
+          </div>
+        </div></div>
+      </div>
+
+      <div class="acc__item">
+        <button class="acc__btn" aria-expanded="false">신부측 계좌번호<span class="acc__sign"></span></button>
+        <div class="acc__panel"><div class="acc__inner">
+          <div class="acct">
+            <div class="acct__row">
+              <div class="acct__info"><b>신부 이영현</b>○○은행 000-0000-0000</div>
+              <button class="copy" data-copy="○○은행 000-0000-0000">복사</button>
+            </div>
+            <div class="acct__row">
+              <div class="acct__info"><b>아버지 이○○</b>○○은행 000-0000-0000</div>
+              <button class="copy" data-copy="○○은행 000-0000-0000">복사</button>
+            </div>
+          </div>
+        </div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ 8. GUESTBOOK ══════════ -->
+  <section class="section wrap reveal">
+    <p class="kicker">Guestbook</p>
+    <h2 class="title-ko">축하 메시지</h2>
+
+    <div class="gb__form">
+      <input id="gbName" type="text" maxlength="12" placeholder="이름" />
+      <textarea id="gbMsg" maxlength="300" placeholder="두 사람에게 전하고 싶은 말을 남겨주세요"></textarea>
+      <button class="gb__submit" id="gbSend">메시지 남기기</button>
+    </div>
+
+    <div class="gb__list" id="gbList"></div>
+  </section>
+
+  <!-- ══════════ 9. CLOSING ══════════ -->
+  <section class="section wrap closing reveal">
+    <div class="frame ratio-11" data-label="closing.jpg" style="margin-bottom:44px">
+      <img src="./assets/images/closing.jpg" alt="" loading="lazy" />
+    </div>
+    <p class="closing__quote">Thank you<br />for being part of<br />our winter</p>
+    <p class="closing__names">김도훈 · 이영현</p>
+    <div class="share">
+      <button class="btn-line" id="shareBtn">청첩장 공유하기</button>
+      <button class="btn-line" id="copyUrl">링크 복사</button>
+    </div>
+  </section>
+
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---------- 사진 로드 감지 (없으면 자리표시 유지) ---------- */
+  document.querySelectorAll(".frame img, .cover__photo img").forEach(function(img){
+    var host = img.parentElement;
+    function ok(){ host.classList.add("has-photo"); }
+    if (img.complete && img.naturalWidth > 0) ok();
+    else img.addEventListener("load", ok);
+  });
+
+  /* ---------- 스크롤 등장 ---------- */
+  if ("IntersectionObserver" in window){
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); } });
+    }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
+    document.querySelectorAll(".reveal").forEach(function(el){ io.observe(el); });
+  } else {
+    document.querySelectorAll(".reveal").forEach(function(el){ el.classList.add("in"); });
+  }
+
+  /* ---------- 커버 눈 ---------- */
+  var cv = document.getElementById("snow");
+  if (cv && !reduce){
+    var ctx = cv.getContext("2d"), flakes = [], raf, W, H;
+    function size(){
+      var r = cv.getBoundingClientRect(), d = Math.min(window.devicePixelRatio||1, 2);
+      W = r.width; H = r.height;
+      cv.width = W*d; cv.height = H*d; ctx.setTransform(d,0,0,d,0,0);
+    }
+    function init(){
+      flakes = [];
+      for (var i=0;i<46;i++){
+        flakes.push({ x:Math.random()*W, y:Math.random()*H, r:Math.random()*1.6+0.5,
+                      s:Math.random()*0.35+0.16, d:Math.random()*Math.PI*2, o:Math.random()*0.35+0.18 });
+      }
+    }
+    function draw(){
+      ctx.clearRect(0,0,W,H);
+      for (var i=0;i<flakes.length;i++){
+        var f = flakes[i];
+        ctx.beginPath();
+        ctx.arc(f.x, f.y, f.r, 0, Math.PI*2);
+        ctx.fillStyle = "rgba(255,255,255," + f.o + ")";
+        ctx.fill();
+        f.d += 0.006;
+        f.y += f.s;
+        f.x += Math.sin(f.d) * 0.28;
+        if (f.y > H + 4){ f.y = -4; f.x = Math.random()*W; }
+      }
+      raf = requestAnimationFrame(draw);
+    }
+    size(); init(); draw();
+    window.addEventListener("resize", function(){ size(); init(); });
+    document.addEventListener("visibilitychange", function(){
+      if (document.hidden) cancelAnimationFrame(raf); else raf = requestAnimationFrame(draw);
+    });
+  }
+
+  /* ---------- BGM ---------- */
+  var audio = document.getElementById("bgm"), btn = document.getElementById("bgmBtn");
+  btn.addEventListener("click", function(){
+    if (audio.paused){
+      audio.volume = 0;
+      audio.play().then(function(){
+        btn.setAttribute("aria-pressed","true");
+        btn.setAttribute("aria-label","배경음악 끄기");
+        var v = 0, t = setInterval(function(){ v = Math.min(v+0.04, 0.45); audio.volume = v; if (v>=0.45) clearInterval(t); }, 60);
+      }).catch(function(){});
+    } else {
+      audio.pause();
+      btn.setAttribute("aria-pressed","false");
+      btn.setAttribute("aria-label","배경음악 켜기");
+    }
+  });
+
+  /* ---------- D-DAY ---------- */
+  var WED = new Date(2026, 11, 6, 15, 40, 0);
+  var today = new Date(); today.setHours(0,0,0,0);
+  var wedDay = new Date(2026, 11, 6);
+  var diff = Math.round((wedDay - today) / 86400000);
+  document.getElementById("dday").textContent =
+    diff > 0 ? "D − " + diff : (diff === 0 ? "The Day" : "D + " + Math.abs(diff));
+
+  /* ---------- 캘린더 등록 ---------- */
+  var TITLE = "김도훈 ♥ 이영현 결혼식";
+  var PLACE = "웨딩시티 아모르홀 (서울특별시 구로구 새말로 97 신도림테크노마트 8층)";
+  var START = "20261206T064000Z", END = "20261206T080000Z"; // KST 15:40 ~ 17:00
+
+  document.getElementById("gcal").href =
+    "https://calendar.google.com/calendar/render?action=TEMPLATE" +
+    "&text=" + encodeURIComponent(TITLE) +
+    "&dates=" + START + "/" + END +
+    "&location=" + encodeURIComponent(PLACE) +
+    "&details=" + encodeURIComponent("오후 3시 40분 예식");
+
+  document.getElementById("icsBtn").addEventListener("click", function(){
+    var ics = [
+      "BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//wedding//KR","BEGIN:VEVENT",
+      "UID:" + Date.now() + "@wedding",
+      "DTSTAMP:" + START, "DTSTART:" + START, "DTEND:" + END,
+      "SUMMARY:" + TITLE, "LOCATION:" + PLACE,
+      "BEGIN:VALARM","TRIGGER:-P1D","ACTION:DISPLAY","DESCRIPTION:내일은 결혼식","END:VALARM",
+      "END:VEVENT","END:VCALENDAR"
+    ].join("\r\n");
+    var url = URL.createObjectURL(new Blob([ics], { type: "text/calendar;charset=utf-8" }));
+    var a = document.createElement("a");
+    a.href = url; a.download = "wedding.ics"; a.click();
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
+  });
+
+  /* ---------- 갤러리 ---------- */
+  var track = document.getElementById("track");
+  var items = track.querySelectorAll(".gallery__item");
+  var now = document.getElementById("galNow"), bar = document.getElementById("galBar");
+  document.getElementById("galAll").textContent = ("0" + items.length).slice(-2);
+  bar.style.width = (100 / items.length) + "%";
+  function pad(n){ return ("0" + n).slice(-2); }
+  track.addEventListener("scroll", function(){
+    var max = track.scrollWidth - track.clientWidth;
+    var p = max > 0 ? track.scrollLeft / max : 0;
+    var i = Math.min(items.length - 1, Math.round(p * (items.length - 1)));
+    now.textContent = pad(i + 1);
+    bar.style.transform = "translateX(" + (i * 100) + "%)";
+  }, { passive: true });
+
+  /* ---------- 아코디언 ---------- */
+  document.querySelectorAll(".acc__btn").forEach(function(b){
+    b.addEventListener("click", function(){
+      var panel = b.nextElementSibling;
+      var open = b.getAttribute("aria-expanded") === "true";
+      b.setAttribute("aria-expanded", open ? "false" : "true");
+      if (open){
+        panel.style.height = panel.scrollHeight + "px";
+        requestAnimationFrame(function(){ panel.style.height = "0px"; });
+      } else {
+        panel.style.height = panel.scrollHeight + "px";
+        panel.addEventListener("transitionend", function te(){
+          panel.style.height = "auto";
+          panel.removeEventListener("transitionend", te);
+        });
+      }
+    });
+  });
+
+  /* ---------- 복사 ---------- */
+  function copy(text, el, label){
+    var done = function(){
+      if (!el) return;
+      var prev = el.textContent;
+      el.textContent = label || "복사됨";
+      el.classList.add("done");
+      setTimeout(function(){ el.textContent = prev; el.classList.remove("done"); }, 1600);
+    };
+    if (navigator.clipboard && window.isSecureContext){
+      navigator.clipboard.writeText(text).then(done).catch(function(){});
+    } else {
+      var ta = document.createElement("textarea");
+      ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand("copy"); done(); } catch(e){}
+      document.body.removeChild(ta);
+    }
+  }
+  document.querySelectorAll(".copy").forEach(function(b){
+    b.addEventListener("click", function(){ copy(b.dataset.copy, b); });
+  });
+  document.getElementById("copyAddr").addEventListener("click", function(){
+    copy("서울특별시 구로구 새말로 97 신도림테크노마트 8층 웨딩시티 아모르홀", this, "주소 복사됨");
+  });
+  document.getElementById("copyUrl").addEventListener("click", function(){
+    copy(location.href, this, "링크 복사됨");
+  });
+  document.getElementById("shareBtn").addEventListener("click", function(){
+    if (navigator.share){
+      navigator.share({ title: "김도훈 · 이영현 결혼합니다", text: "2026년 12월 6일 일요일 오후 3시 40분 · 웨딩시티 아모르홀", url: location.href }).catch(function(){});
+    } else {
+      copy(location.href, this, "링크 복사됨");
+    }
+  });
+
+  /* ---------- 방명록 (임시 저장소 — 배포 시 Firebase 등으로 교체) ---------- */
+  var KEY = "guestbook_kdh_lyh";
+  var list = document.getElementById("gbList");
+
+  function load(){
+    try { return JSON.parse(localStorage.getItem(KEY) || "[]"); } catch(e){ return []; }
+  }
+  function save(d){
+    try { localStorage.setItem(KEY, JSON.stringify(d)); } catch(e){}
+  }
+  function esc(s){ return s.replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+  function render(){
+    var d = load();
+    if (!d.length){ list.innerHTML = '<p class="gb__empty">첫 번째 축하 메시지를 남겨주세요</p>'; return; }
+    list.innerHTML = d.map(function(x){
+      return '<div class="gb__item"><div class="gb__top"><span class="gb__name">' + esc(x.n) +
+             '</span><span class="gb__date">' + x.d + '</span></div><p class="gb__msg">' + esc(x.m) + '</p></div>';
+    }).join("");
+  }
+  document.getElementById("gbSend").addEventListener("click", function(){
+    var n = document.getElementById("gbName"), m = document.getElementById("gbMsg");
+    if (!n.value.trim() || !m.value.trim()){ (n.value.trim() ? m : n).focus(); return; }
+    var t = new Date();
+    var d = load();
+    d.unshift({ n: n.value.trim(), m: m.value.trim(),
+                d: t.getFullYear() + "." + pad(t.getMonth()+1) + "." + pad(t.getDate()) });
+    save(d); n.value = ""; m.value = ""; render();
+  });
+  render();
+})();
+</script>
+</body>
+</html>
