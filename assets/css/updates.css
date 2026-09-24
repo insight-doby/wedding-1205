@@ -1,0 +1,24 @@
+/* Changes preserve the original invitation's colors, typography and layout. */
+.gallery-frame{padding:0;margin:28px 0 12px;transform:none;background:transparent;box-shadow:none}
+.gallery-track{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;aspect-ratio:auto;overflow:visible;scroll-snap-type:none}
+.gallery-slide{aspect-ratio:1;overflow:hidden;border-radius:6px;background:#eee4d8;min-width:0}
+.gallery-slide img{width:100%;height:100%;object-fit:cover;object-position:center;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;pointer-events:none}
+#galleryTrack,#photoDialog{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+.photo-dialog img{height:auto;max-height:calc(100dvh - 125px);object-fit:contain;-webkit-touch-callout:none;user-select:none;pointer-events:none}
+.gallery-control[hidden]{display:none}
+.kakao-map-wrap{margin:0 0 14px}
+.kakao-map{height:265px;width:100%;border:1px solid #e0e4d7;border-radius:14px;background:#ecefe5;overflow:hidden;display:grid;place-items:center}
+.kakao-map>p{padding:25px;max-width:260px;margin:0;font-size:12px;color:var(--muted);word-break:keep-all}
+.map-pin-label{font:12px/1.5 var(--sans);padding:5px 9px;white-space:nowrap;color:#51453d}
+.avatar-toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+.avatar-toolbar>span{font-size:11px;color:var(--muted)}
+.avatar-toolbar .shuffle-avatars{width:44px;min-width:44px;height:44px;margin:0;padding:8px;display:grid;place-items:center;border-radius:12px}
+.avatar-option{min-height:95px;padding:5px 3px 6px}
+.avatar-option .doll,.avatar-option .random-image{width:100%;height:74px;max-width:74px;margin:auto;object-fit:contain}
+.avatar-option small{font-size:10px;line-height:1.5;word-break:keep-all}
+.avatar-pool-note{min-height:16px}
+.doll.missing-avatar:before{background-image:url('../images/guests/random.svg');background-size:contain;background-position:center;width:80%}
+.garden.is-active:not(.motion-off) .character.guest:not(.entering){animation:guest-walk 14s ease-in-out infinite;animation-delay:var(--delay,0s)}
+@keyframes guest-walk{0%,100%{transform:translate(-50%,-50%)}25%{transform:translate(calc(-50% + 10px),calc(-50% - 6px))}50%{transform:translate(calc(-50% - 9px),calc(-50% + 5px))}75%{transform:translate(calc(-50% - 4px),calc(-50% - 4px))}}
+@media(max-width:350px){.avatar-option .doll,.avatar-option .random-image{height:65px}.avatar-option{min-height:87px}.avatar-option small{font-size:9px}.gallery-track{gap:5px}}
+@media(prefers-reduced-motion:reduce){.garden .character.guest{animation:none!important}}

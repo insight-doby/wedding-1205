@@ -1,0 +1,82 @@
+import { createRequire } from 'node:module';
+const { PGlite } = createRequire(import.meta.url)('@electric-sql/pglite');
+import { readFile } from 'node:fs/promises';
+import assert from 'node:assert/strict';
+const db = new PGlite();
+const root = new URL('../', import.meta.url);
+await db.exec(`
+ create role anon; create role authenticated;
+ create schema auth; create schema storage;
+ create table auth.users(id uuid primary key,email text);
+ create function auth.uid() returns uuid language sql stable as $$select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid$$;
+ grant usage on schema auth,storage,public to anon,authenticated;
+ grant execute on function auth.uid() to anon,authenticated;
+ create table storage.buckets(id text primary key,name text,public boolean,file_size_limit bigint,allowed_mime_types text[]);
+ create table storage.objects(id uuid primary key default gen_random_uuid(),bucket_id text,name text);
+ alter table storage.objects enable row level security;
+ grant select,insert,update,delete on storage.objects to anon,authenticated;
+`);
+await db.exec(await readFile(new URL('supabase/01_schema.sql',root),'utf8'));
+await db.exec(await readFile(new URL('supabase/02_seed.sql',root),'utf8'));
+const admin='11111111-1111-4111-8111-111111111111',member='22222222-2222-4222-8222-222222222222';
+await db.exec(`insert into auth.users values ('${admin}','admin@test.invalid'),('${member}','member@test.invalid');insert into wedding_private.admins values ('${admin}');`);
+let assertions=0;
+async function role(name,uid=''){await db.exec(`reset role;select set_config('request.jwt.claim.sub','${uid}',false);set role ${name};`);}
+async function scalar(sql){return (await db.query(sql)).rows[0].v;}
+async function eq(sql,expected,label){assert.equal(await scalar(sql),expected,label);assertions++;}
+async function denied(sql,label){let error;try{await db.query(sql);}catch(e){error=e;}assert.ok(error,label);assertions++;}
+await role('anon');
+await eq('select wedding_is_admin() v',false,'anonymous is not admin');
+await eq('select count(*)::int v from wedding_characters',6,'only six active guest assets visible');
+await denied("insert into wedding_characters(name,image_url) values('bad','assets/images/x.png')",'anon cannot add characters');
+await denied("insert into wedding_messages(name,message,character_id) values('bad','bad',8)",'anon cannot insert raw rows');
+await denied("insert into wedding_private.admins(user_id) values('"+member+"')",'anonymous cannot grant admin');
+const nonce='33333333-3333-4333-8333-333333333333';
+const call=`select register_wedding_guest('테스트 손님','오래오래 행복하세요',8,'${nonce}') v`;
+const entry=await scalar(call);assert.equal(entry.character_id,8);assertions++;
+await eq(`select (register_wedding_guest('테스트 손님','오래오래 행복하세요',8,'${nonce}')->>'id')::uuid='${entry.id}'::uuid v`,true,'retry idempotency');
+await eq('select count(*)::int v from wedding_messages',1,'retry does not duplicate guest');
+await denied(`select register_wedding_guest('다른 내용','바꾼 내용',8,'${nonce}')`,'nonce cannot overwrite message');
+await denied("select register_wedding_guest('손님','내용',2,'44444444-4444-4444-8444-444444444444')",'inactive avatar excluded');
+await denied("select register_wedding_guest('손님','내용',0,'44444444-4444-4444-8444-444444444444')",'groom excluded');
+await denied("select register_wedding_guest('1234567890123','내용',8,'44444444-4444-4444-8444-444444444444')",'server enforces name size');
+await denied("select register_wedding_guest('손님',repeat('가',241),8,'44444444-4444-4444-8444-444444444444')",'server enforces message size');
+await denied('select request_id from wedding_messages','private retry IDs not exposed');
+await role('authenticated',member);
+await eq('select wedding_is_admin() v',false,'ordinary signed-in account is not admin');
+await denied("insert into wedding_gallery(image_url) values('assets/images/x.png')",'non-admin cannot add gallery');
+assert.equal((await db.query("update wedding_characters set active=false where id=8 returning id")).rows.length,0);assertions++;
+assert.equal((await db.query("delete from wedding_messages returning id")).rows.length,0);assertions++;
+await denied("insert into storage.objects(bucket_id,name) values('wedding-media','guests/not-allowed.png')",'non-admin upload blocked');
+await role('authenticated',admin);
+await eq('select wedding_is_admin() v',true,'allowlisted administrator authorized');
+await eq('select count(*)::int v from wedding_characters',12,'admin reads active and legacy avatars');
+await db.exec("insert into storage.objects(bucket_id,name) values('wedding-media','guests/test-image.png'),('wedding-media','gallery/test-photo.png');insert into wedding_characters(name,storage_path,active) values('새 친구','guests/test-image.png',false);insert into wedding_gallery(storage_path,visible) values('gallery/test-photo.png',false);");
+await denied("insert into storage.objects(bucket_id,name) values('outside-bucket','guests/no.png')",'admin limited to wedding bucket');
+await role('anon');
+await eq("select count(*)::int v from storage.objects",0,'private new uploads cannot be read');
+await eq('select count(*)::int v from wedding_gallery',1,'hidden gallery not listed');
+await role('authenticated',admin);
+await db.exec("update wedding_characters set active=true where storage_path='guests/test-image.png';update wedding_gallery set visible=true where storage_path='gallery/test-photo.png';");
+await role('anon');await eq('select count(*)::int v from storage.objects',2,'published images are readable for signing');
+await role('authenticated',admin);await db.exec('update wedding_characters set active=false where id=8');
+await role('anon');await eq('select count(*)::int v from wedding_characters where id=8',1,'deactivated selected avatar preserved for visible guest');
+await denied("select register_wedding_guest('새 손님','축하',8,'55555555-5555-4555-8555-555555555555')",'deactivated avatar cannot be chosen again');
+await role('authenticated',admin);await db.exec(`update wedding_messages set visible=false where id='${entry.id}'`);
+await role('anon');await eq('select count(*)::int v from wedding_messages',0,'hidden guest disappears on another connection');await eq('select count(*)::int v from wedding_characters where id=8',0,'unreferenced inactive asset hidden');
+await role('authenticated',admin);await denied('delete from wedding_characters where id=8','history FK prevents destroying selected character');
+assert.equal((await db.query("delete from storage.objects where name='guests/test-image.png' returning id")).rows.length,0);assertions++;
+await db.exec("delete from wedding_characters where storage_path='guests/test-image.png';delete from storage.objects where name='guests/test-image.png';");
+await eq("select count(*)::int v from storage.objects where name='guests/test-image.png'",0,'unreferenced uploaded file can be deleted');
+// Admin imports use a unique legacy key without exposing that private column to visitors.
+const importSQL = "insert into wedding_messages(name,message,character_id,legacy_key) values ('기존 손님','반갑습니다',9,'test-import-key') returning id";
+const imported = await db.query(importSQL);
+assert.equal(imported.rows.length,1);assertions++;
+await assert.rejects(()=>db.query(importSQL),error=>error.code==='23505','duplicate imports return a conflict without changing existing data');assertions++;
+await db.exec(`delete from wedding_messages where id='${imported.rows[0].id}'`);
+await db.exec('reset role');
+// Reapplying schema is allowed and keeps existing data.
+await db.exec(await readFile(new URL('supabase/01_schema.sql',root),'utf8'));
+await eq('select count(*)::int v from wedding_messages',1,'schema rerun preserves guest data');
+console.log(`PASS ${assertions} PostgreSQL checks: RLS, Auth roles, Storage policy, chosen avatars and retry safety.`);
+await db.close();

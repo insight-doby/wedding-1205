@@ -1,0 +1,50 @@
+const {JSDOM}=require('jsdom');
+const fs=require('node:fs');const path=require('node:path');const assert=require('node:assert/strict');
+const root=path.resolve(__dirname,'..');let count=0;
+const check=(value,text)=>{assert.ok(value,text);count++;};
+async function until(fn){for(let i=0;i<200;i++){if(fn())return;await new Promise(r=>setTimeout(r,5));}throw new Error('Timed out');}
+function scope(html,relative='index.html'){
+ const dom=new JSDOM(html,{url:new URL(relative,'https://insight-doby.github.io/wedding-1205/').href,runScripts:'outside-only'}),w=dom.window;
+ Object.assign(w,{Headers,Response,Request,AbortSignal,TextEncoder,TextDecoder,fetch,WebSocket});
+ const load=file=>{const tag=w.document.createElement('script');tag.src=new URL(file,'https://insight-doby.github.io/wedding-1205/').href;Object.defineProperty(w.document,'currentScript',{value:tag,configurable:true});w.eval(fs.readFileSync(path.join(root,file),'utf8'));};
+ return {dom,w,load};
+}
+(async()=>{
+ const a=scope('<!doctype html><html><body></body></html>');
+ a.load('assets/js/config.js');a.load('assets/js/fallback-data.js');
+ a.w.WEDDING_CONNECTION.supabaseUrl='https://fixture.supabase.co';a.w.WEDDING_CONNECTION.supabasePublishableKey='sb_publishable_test_fixture_only';
+ const requests=[];
+ a.w.fetch=async(input,init)=>{requests.push({url:String(input),headers:new Headers(init.headers),body:init.body});return new Response('[]',{status:200,headers:{'Content-Type':'application/json'}});};
+ a.load('assets/vendor/supabase.js');a.load('assets/js/shared-data.js');
+ await a.w.WeddingData.messages();
+ check(requests[0].headers.get('apikey')==='sb_publishable_test_fixture_only','public key uses apikey');
+ check(!requests[0].headers.has('Authorization'),'public key is not sent as JWT');
+ const client=await a.w.WeddingData.getClient();
+ client.auth.getSession=async()=>({data:{session:{access_token:'valid-auth-jwt-fixture'}},error:null});
+ await a.w.WeddingData.messages();
+ check(requests.at(-1).headers.get('Authorization')==='Bearer valid-auth-jwt-fixture','administrator JWT is preserved');
+ a.dom.window.close();
+ const b=scope(fs.readFileSync(path.join(root,'admin/index.html'),'utf8'),'admin/index.html');
+ b.load('assets/js/config.js');b.load('assets/js/fallback-data.js');b.load('assets/js/shared-data.js');b.load('admin/admin.js');
+ check(!b.w.document.getElementById('setupPanel').hidden,'missing setup has useful guidance');check(b.w.document.getElementById('dashboard').hidden,'missing setup does not reveal admin controls');b.dom.window.close();
+ const c=scope(fs.readFileSync(path.join(root,'admin/index.html'),'utf8'),'admin/index.html');
+ c.load('assets/js/config.js');c.load('assets/js/fallback-data.js');c.load('assets/js/shared-data.js');
+ c.w.WeddingData.configured=true;let signedOut=false;
+ c.w.WeddingData.getClient=async()=>({auth:{getSession:async()=>({data:{session:{user:{email:'not-admin@test.invalid'}}}}),signOut:async()=>{signedOut=true;return {};},onAuthStateChange(){}}});
+ c.w.WeddingData.isAdmin=async()=>false;c.load('admin/admin.js');
+ await until(()=>signedOut&&c.w.document.getElementById('notice').textContent.includes('권한'));
+ check(c.w.document.getElementById('dashboard').hidden,'ordinary login cannot reveal dashboard');check(signedOut,'non-admin session is signed out');c.dom.window.close();
+ const d=scope(fs.readFileSync(path.join(root,'admin/index.html'),'utf8'),'admin/index.html');
+ d.load('assets/js/config.js');d.load('assets/js/fallback-data.js');d.load('assets/js/shared-data.js');
+ const records={characters:d.w.WeddingData.fallback.characters,gallery:d.w.WeddingData.fallback.gallery};let mutation;
+ Object.assign(d.w.WeddingData,{configured:true,getClient:async()=>({auth:{getSession:async()=>({data:{session:{user:{email:'admin@test.invalid'}}}}),onAuthStateChange(){}}}),isAdmin:async()=>true,catalog:async()=>records,messages:async()=>[],mutate:async(table,action,data,id)=>{mutation={table,action,data,id};return [{id}];}});
+ d.load('admin/admin.js');await until(()=>!d.w.document.getElementById('dashboard').hidden);
+ const form=d.w.document.getElementById('character-8');
+ form.querySelector('[name=name]').value='새 이름';form.querySelector('[name=personality]').value='명랑함, 다정함';form.querySelector('[name=kind]').value='cat';form.querySelector('[name=active]').checked=false;
+ form.dispatchEvent(new d.w.SubmitEvent('submit',{bubbles:true,cancelable:true,submitter:form.querySelector('[type=submit]')}));
+ await until(()=>mutation);
+ check(mutation.data.name==='새 이름'&&mutation.data.personality.join(',')==='명랑함,다정함'&&mutation.data.kind==='cat'&&mutation.data.active===false,'admin editor sends name, tags, type and publication together');
+ check(mutation.id===8&&mutation.table==='wedding_characters','editor updates the intended row');
+ await new Promise(setImmediate);d.dom.window.close();
+ console.log(`PASS ${count} connection and administrator interface checks (mocked transport).`);
+})().catch(e=>{console.error(e);process.exit(1);});
