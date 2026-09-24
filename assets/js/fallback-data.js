@@ -237,6 +237,125 @@ window.WEDDING_FALLBACK = {
       "alt": "꽃다발을 든 도훈과 웃고 있는 영현의 웨딩 사진",
       "sort_order": 0,
       "visible": true
+    },
+    {
+      "id": 2,
+      "image_url": "assets/images/gallery/wedding-02.jpg",
+      "alt": "도훈과 영현의 웨딩 사진",
+      "sort_order": 1,
+      "visible": true
+    },
+    {
+      "id": 3,
+      "image_url": "assets/images/gallery/wedding-03.jpg",
+      "alt": "도훈과 영현의 웨딩 사진",
+      "sort_order": 2,
+      "visible": true
+    },
+    {
+      "id": 4,
+      "image_url": "assets/images/gallery/wedding-04.jpg",
+      "alt": "도훈과 영현의 웨딩 사진",
+      "sort_order": 3,
+      "visible": true
+    },
+    {
+      "id": 5,
+      "image_url": "assets/images/gallery/wedding-05.jpg",
+      "alt": "도훈과 영현의 웨딩 사진",
+      "sort_order": 4,
+      "visible": true
+    },
+    {
+      "id": 6,
+      "image_url": "assets/images/gallery/wedding-06.jpg",
+      "alt": "도훈과 영현의 웨딩 사진",
+      "sort_order": 5,
+      "visible": true
+    },
+    {
+      "id": 7,
+      "image_url": "assets/images/gallery/wedding-07.jpg",
+      "alt": "도훈과 영현의 웨딩 사진",
+      "sort_order": 6,
+      "visible": true
+    },
+    {
+      "id": 8,
+      "image_url": "assets/images/gallery/wedding-08.jpg",
+      "alt": "도훈과 영현의 웨딩 사진",
+      "sort_order": 7,
+      "visible": true
+    },
+    {
+      "id": 9,
+      "image_url": "assets/images/gallery/wedding-09.jpg",
+      "alt": "도훈과 영현의 웨딩 사진",
+      "sort_order": 8,
+      "visible": true
+    },
+    {
+      "id": 10,
+      "image_url": "assets/images/gallery/wedding-10.jpg",
+      "alt": "도훈과 영현의 웨딩 사진",
+      "sort_order": 9,
+      "visible": true
+    },
+    {
+      "id": 11,
+      "image_url": "assets/images/gallery/wedding-11.jpg",
+      "alt": "도훈과 영현의 웨딩 사진",
+      "sort_order": 10,
+      "visible": true
+    },
+    {
+      "id": 12,
+      "image_url": "assets/images/gallery/wedding-12.jpg",
+      "alt": "도훈과 영현의 웨딩 사진",
+      "sort_order": 11,
+      "visible": true
+    },
+    {
+      "id": 13,
+      "image_url": "assets/images/gallery/wedding-13.jpg",
+      "alt": "도훈과 영현의 웨딩 사진",
+      "sort_order": 12,
+      "visible": true
+    },
+    {
+      "id": 14,
+      "image_url": "assets/images/gallery/wedding-14.jpg",
+      "alt": "도훈과 영현의 웨딩 사진",
+      "sort_order": 13,
+      "visible": true
+    },
+    {
+      "id": 15,
+      "image_url": "assets/images/gallery/wedding-15.jpg",
+      "alt": "도훈과 영현의 웨딩 사진",
+      "sort_order": 14,
+      "visible": true
+    },
+    {
+      "id": 16,
+      "image_url": "assets/images/gallery/wedding-16.jpg",
+      "alt": "도훈과 영현의 웨딩 사진",
+      "sort_order": 15,
+      "visible": true
+    },
+    {
+      "id": 17,
+      "image_url": "assets/images/gallery/wedding-17.jpg",
+      "alt": "도훈과 영현의 웨딩 사진",
+      "sort_order": 16,
+      "visible": true
+    },
+    {
+      "id": 18,
+      "image_url": "assets/images/gallery/wedding-18.jpg",
+      "alt": "도훈과 영현의 웨딩 사진",
+      "sort_order": 17,
+      "visible": true
     }
   ]
 };
