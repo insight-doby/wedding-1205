@@ -1,10 +1,10 @@
-const embeddedCoupleArtwork="assets/images/couple.png";window.WEDDING_CONFIG = {"siteUrl": "https://insight-doby.github.io/wedding-1205/", "preview": false, "guestbookEndpoint": "https://script.google.com/macros/s/AKfycbxomevMICFV4kTY-2q_XBXcLskSdxxjD0A5toe6VdMllWhfhAsARk-JWeeiGQ2Anp1fyA/exec", "kakaoKey": "35ce346e050f7085af2b0947a28f3395", "groomPhone": "", "bridePhone": "", "accounts": [], "photos": [{"src": "assets/images/gallery/wedding-01.jpg", "alt": "꽃다발을 든 도훈과 웃고 있는 영현의 웨딩 사진"}], "cover": "assets/images/gallery/wedding-01.jpg", "music": "assets/audio/bgm.mp3", "weddingTime": "2026-12-05T15:40:00+09:00", "avatarTag": "tw-avatar", "coupleAvatars": {"groom": {"src": embeddedCoupleArtwork, "atlasSize": [1536, 1024], "region": [218, 48, 404, 924]}, "bride": {"src": embeddedCoupleArtwork, "atlasSize": [1536, 1024], "region": [780, 80, 624, 899]}}};
+const embeddedCoupleArtwork="assets/images/couple.png";window.WEDDING_CONFIG = {"siteUrl": "https://insight-doby.github.io/wedding-1205/", "preview": false, "guestbookEndpoint": "https://script.google.com/macros/s/AKfycbxomevMICFV4kTY-2q_XBXcLskSdxxjD0A5toe6VdMllWhfhAsARk-JWeeiGQ2Anp1fyA/exec", "kakaoKey": "2aad38244991547c604b64ab67937c6b", "groomPhone": "", "bridePhone": "", "accounts": [], "photos": [{"src": "assets/images/gallery/wedding-01.jpg", "alt": "꽃다발을 든 도훈과 웃고 있는 영현의 웨딩 사진"}], "cover": "assets/images/gallery/wedding-01.jpg", "music": "assets/audio/bgm.mp3", "weddingTime": "2026-12-05T15:40:00+09:00", "avatarTag": "tw-avatar", "coupleAvatars": {"groom": {"src": embeddedCoupleArtwork, "atlasSize": [1536, 1024], "region": [218, 48, 404, 924]}, "bride": {"src": embeddedCoupleArtwork, "atlasSize": [1536, 1024], "region": [780, 80, 624, 899]}}};
 
 // 여기 세 곳만 직접 입력합니다. 비밀번호 / secret / service_role 키는 넣지 않습니다.
 window.WEDDING_CONNECTION = {
   supabaseUrl: "SUPABASE_PROJECT_URL",
   supabasePublishableKey: "SUPABASE_PUBLISHABLE_KEY",
-  kakaoMapJavaScriptKey: "KAKAO_MAP_JAVASCRIPT_KEY",
+  kakaoMapJavaScriptKey: "2aad38244991547c604b64ab67937c6b",
   storageBucket: "wedding-media"
 };
 window.WEDDING_VENUE = {
