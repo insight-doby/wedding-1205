@@ -4,6 +4,7 @@
   const root = new URL('../../', document.currentScript.src);
   const settings = window.WEDDING_CONNECTION || {};
   const configured = /^https:\/\/[a-z0-9-]+\.supabase\.co\/?$/i.test(settings.supabaseUrl || '') && /^sb_publishable_/.test(settings.supabasePublishableKey || '');
+  const appScriptConfigured = /^https:\/\/script\.google\.com\/macros\/s\/[^/?#]+\/exec$/i.test(window.WEDDING_CONFIG?.guestbookEndpoint || '');
   let clientPromise;
   function assetUrl(value) {
     if (!value) return '';
@@ -70,9 +71,17 @@
     };
   }
   async function messages(admin = false) {
+    if (appScriptConfigured && !admin) return legacyRead();
     return rows('wedding_messages', 'id,name,message,character_id,date_label,visible,created_at', admin);
   }
   async function register(name, message, characterId, requestId) {
+    if (appScriptConfigured) {
+      // The existing sheet stores three columns; keep the chosen avatar in the message suffix.
+      const storedMessage = message + '\n\n[tw-avatar:' + characterId + ']';
+      await scriptRequest({ action: 'add', n: name, m: storedMessage });
+      const date = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Seoul', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date()).replaceAll('-', '.');
+      return { n: name, m: storedMessage, d: date, a: characterId, id: requestId };
+    }
     const client = await getClient();
     return unwrap(await timeout(client.rpc('register_wedding_guest', { p_name: name, p_message: message, p_character_id: characterId, p_request_id: requestId })));
   }
@@ -88,18 +97,29 @@
     if (!result.length) throw new Error('변경할 항목이 없거나 수정 권한이 없어요. 새로고침 후 다시 확인해 주세요.');
     return result;
   }
-  function legacyRead() {
+  function scriptRequest(parameters) {
     return new Promise((resolve, reject) => {
       const endpoint = window.WEDDING_CONFIG?.guestbookEndpoint;
-      if (!endpoint) { reject(new Error('기존 방명록 주소가 없어요.')); return; }
-      const key = 'legacy_wedding_' + crypto.randomUUID().replaceAll('-', ''), script = document.createElement('script');
-      const finish = () => { clearTimeout(timer); script.remove(); delete window[key]; };
-      const timer = setTimeout(() => { finish(); reject(new Error('기존 방명록을 읽을 수 없어요. 원본 시트를 JSON으로 내보내 가져올 수 있습니다.')); }, 12000);
-      window[key] = result => { finish(); result?.ok ? resolve(result.items || []) : reject(new Error('기존 방명록에서 오류를 반환했어요.')); };
-      script.onerror = () => { finish(); reject(new Error('기존 방명록에 연결하지 못했어요.')); };
-      script.src = endpoint + '?' + new URLSearchParams({ action: 'list', callback: key });
+      if (!endpoint) { reject(new Error('방명록 연결 주소가 없어요.')); return; }
+      const key = 'wedding_' + crypto.randomUUID().replaceAll('-', '');
+      const script = document.createElement('script');
+      let done = false;
+      const timer = setTimeout(() => finish(new Error('방명록 응답이 지연되고 있어요. 잠시 후 다시 시도해 주세요.')), 15000);
+      function finish(error, result) {
+        if (done) return;
+        done = true; clearTimeout(timer); script.remove(); delete window[key];
+        if (error) reject(error); else resolve(result);
+      }
+      window[key] = result => result?.ok
+        ? finish(null, result)
+        : finish(new Error(result?.error || '방명록 요청을 처리하지 못했어요.'));
+      script.onerror = () => finish(new Error('방명록에 연결하지 못했어요. 앱스크립트 배포 설정을 확인해 주세요.'));
+      script.src = endpoint + '?' + new URLSearchParams({ ...parameters, callback: key });
       document.head.append(script);
     });
+  }
+  function legacyRead() {
+    return scriptRequest({ action: 'list' }).then(result => result.items || []);
   }
   async function validateImage(file) {
     if (!['image/png', 'image/jpeg', 'image/webp'].includes(file.type)) throw new Error('PNG, JPG, WebP 이미지만 올릴 수 있어요.');
@@ -126,5 +146,5 @@
       img.onerror = () => { clearTimeout(timer); resolve(false); }; img.src = src;
     });
   }
-  window.WeddingData = { configured, root, settings, fallback, assetUrl, getClient, timeout, unwrap, catalog, messages, register, isAdmin, mutate, mediaRows, legacyRead, validateImage, upload, removeMedia, loadImage };
+  window.WeddingData = { configured, appScriptConfigured, root, settings, fallback, assetUrl, getClient, timeout, unwrap, catalog, messages, register, isAdmin, mutate, mediaRows, legacyRead, validateImage, upload, removeMedia, loadImage };
 })();

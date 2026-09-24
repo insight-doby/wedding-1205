@@ -4,7 +4,7 @@
   const Data = window.WeddingData;
   const $ = id => document.getElementById(id);
   const params = new URLSearchParams(location.search);
-  const preview = config.preview === true || params.get('preview') === '1' || !Data.configured;
+  const preview = config.preview === true || params.get('preview') === '1' || !(Data.configured || Data.appScriptConfigured);
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const storageKey = 'two-winters-preview-v1';
   const PAGE_SIZE = 6; // Garden paging; it does not limit total registrations.
@@ -162,7 +162,7 @@
   }
   async function loadCatalog() {
     try {
-      const data=preview?Data.fallback:await Data.catalog();
+      const data=(preview||Data.appScriptConfigured)?Data.fallback:await Data.catalog();
       avatarById=new Map(data.characters.map(a=>[a.id,a]));
       guestAvatars=data.characters.filter(a=>a.active&&a.src);
       photos=data.gallery.filter(p=>p.visible&&p.src); failedAvatarIds.clear(); catalogUpdatedAt=Date.now();
