@@ -7,15 +7,15 @@
   const preview = config.preview === true || params.get('preview') === '1' || !(Data.configured || Data.appScriptConfigured);
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const storageKey = 'two-winters-preview-v1';
-  const PAGE_SIZE = 6; // Garden paging; it does not limit total registrations.
+  const MAX_GARDEN_GUESTS = 50;
   let guestAvatars = preview ? Data.fallback.characters.filter(a => a.active) : [];
   let avatarById = new Map((preview ? Data.fallback.characters : []).map(a => [a.id, a]));
   const failedAvatarIds = new Set();
   const verifiedImages = new Set();
   let visibleAvatarIds = [], selectedAvatarId = 'random', shuffling = false;
   let catalogReady = Promise.resolve(), catalogUpdatedAt = 0, pendingSubmission = null;
-  const slots = [{x:25,y:58},{x:50,y:59},{x:75,y:58},{x:24,y:79},{x:50,y:82},{x:76,y:79}];
-  let entries = [], page = 0, selectedPhoto = 0, messageLimit = 20, ownEntry = null, moving = !prefersReducedMotion.matches, sending = false, currentOpener = null, lastSuccess = 0, hasLoaded = false;
+  let entries = [], shownEntries = [], waitingEntries = [], rotationSlot = 0, rotationTimer;
+  let selectedPhoto = 0, messageLimit = 20, ownEntry = null, moving = !prefersReducedMotion.matches, sending = false, currentOpener = null, lastSuccess = 0, hasLoaded = false;
   const transientEntries = [];
   let toastTimer;
 
@@ -185,13 +185,65 @@
   function showMessage(entry,opener){setAvatar($('messageAvatar'),entry.a);$('messageTitle').textContent=entry.n+' 님의 축하';$('messageBody').textContent=entry.m;$('messageDate').textContent=entry.d;openDialog($('messageDialog'),opener);}
   document.querySelectorAll('.couple').forEach(button=>button.addEventListener('click',()=>showMessage({n:button.classList.contains('groom')?'도훈':'영현',m:'우리의 행복한 시작에 함께해 주셔서 감사합니다.\n12월 5일, 반갑게 만나요!',d:'2026.12.05',a:button.classList.contains('groom')?0:1},button)));
   function isOwn(entry){return ownEntry&&entry.n===ownEntry.n&&entry.m===ownEntry.m&&entry.a===ownEntry.a;}
+  function gardenSlots(count) {
+    const columns=count<=6?Math.max(1,Math.ceil(count/2)):Math.min(10,Math.ceil(Math.sqrt(count*2)));
+    const rows=Math.max(1,Math.ceil(count/columns));
+    return Array.from({length:count},(_,i)=>{
+      const row=Math.floor(i/columns);
+      return {x:5+90*(i%columns+.5)/columns,y:52+36*(row+.5)/rows,size:Math.min(21,80/columns,36/rows*1.05),z:4+row};
+    });
+  }
+  function putGuest(button,entry) {
+    button.gardenEntry=entry;
+    button.dataset.key=entry.key;
+    button.classList.toggle('is-mine',Boolean(isOwn(entry)));
+    button.setAttribute('aria-label',entry.n+' 님의 축하 메시지 보기');
+    const name=document.createElement('span');name.className='char-name';name.textContent=entry.n;
+    button.replaceChildren(createDoll(entry.a),name);
+  }
+  function rotateGarden() {
+    if(!waitingEntries.length)return;
+    const buttons=$('gardenGuests').children;
+    const batch=Math.min(5,waitingEntries.length);
+    for(let i=0;i<batch;i++){
+      const slot=(rotationSlot+i)%shownEntries.length;
+      const outgoing=shownEntries[slot];
+      const incoming=waitingEntries.shift();
+      shownEntries[slot]=incoming;
+      putGuest(buttons[slot],incoming);
+      waitingEntries.push(outgoing);
+    }
+    rotationSlot=(rotationSlot+batch)%shownEntries.length;
+  }
+  function updateGardenRotation() {
+    clearInterval(rotationTimer);
+    if(waitingEntries.length&&$('garden').classList.contains('is-active'))
+      rotationTimer=setInterval(rotateGarden,9000);
+  }
   function renderGarden(){
-    page=Math.min(page,Math.max(0,Math.ceil(entries.length/PAGE_SIZE)-1));const shown=entries.slice(page*PAGE_SIZE,(page+1)*PAGE_SIZE);const fragment=document.createDocumentFragment();
-    shown.forEach((entry,i)=>{const button=document.createElement('button');button.type='button';button.className='character guest'+(isOwn(entry)?' is-mine':'');button.dataset.key=entry.key;button.style.setProperty('--x',slots[i].x+'%');button.style.setProperty('--y',slots[i].y+'%');button.style.setProperty('--z',i<3?'4':'5');button.style.setProperty('--delay',(-i*.9)+'s');button.setAttribute('aria-label',entry.n+' 님의 축하 메시지 보기');const name=document.createElement('span');name.className='char-name';name.textContent=entry.n;button.append(createDoll(entry.a),name);button.addEventListener('click',()=>showMessage(entry,button));fragment.append(button);});
-    $('gardenGuests').replaceChildren(fragment);$('gardenWelcome').hidden=entries.length>0;$('gardenCount').textContent=entries.length?`${entries.length}개의 따뜻한 마음이 함께하고 있어요`:'첫 번째 축하를 기다리고 있어요';$('gardenPagination').hidden=entries.length<=PAGE_SIZE;$('gardenPage').textContent=`${page+1} / ${Math.max(1,Math.ceil(entries.length/PAGE_SIZE))}`;$('gardenPrev').disabled=page===0;$('gardenNext').disabled=(page+1)*PAGE_SIZE>=entries.length;
+    shownEntries=entries.slice(0,MAX_GARDEN_GUESTS);
+    waitingEntries=shuffled(entries.slice(MAX_GARDEN_GUESTS));
+    rotationSlot=0;
+    const slots=gardenSlots(shownEntries.length), fragment=document.createDocumentFragment();
+    shownEntries.forEach((entry,i)=>{
+      const button=document.createElement('button');button.type='button';
+      button.className='character guest'+(shownEntries.length>36&&i%2?'':' animated-guest');
+      button.style.setProperty('--x',slots[i].x+'%');
+      button.style.setProperty('--y',slots[i].y+'%');
+      button.style.setProperty('--guest-size',slots[i].size+'%');
+      button.style.setProperty('--z',String(slots[i].z));
+      button.style.setProperty('--delay',(-i*.37)+'s');
+      button.addEventListener('click',()=>showMessage(button.gardenEntry,button));
+      putGuest(button,entry);fragment.append(button);
+    });
+    $('gardenGuests').replaceChildren(fragment);
+    $('garden').classList.toggle('dense',shownEntries.length>6);
+    $('garden').classList.toggle('crowded',shownEntries.length>36);
+    $('gardenWelcome').hidden=entries.length>0;
+    $('gardenCount').textContent=entries.length?`${entries.length}개의 따뜻한 마음이 함께하고 있어요`:'첫 번째 축하를 기다리고 있어요';
+    updateGardenRotation();
   }
   function renderMessages(){const fragment=document.createDocumentFragment();if(!entries.length){const p=document.createElement('p');p.className='message-list-empty';p.textContent='첫 번째 축하 메시지를 남겨 주세요.';fragment.append(p);}for(const entry of entries.slice(0,messageLimit)){const card=document.createElement('article');card.className='message-card';const content=document.createElement('div');content.className='message-card-content';const head=document.createElement('div');head.className='message-card-head';const name=document.createElement('strong');name.textContent=entry.n;const date=document.createElement('time');date.textContent=entry.d;const message=document.createElement('p');message.textContent=entry.m;head.append(name,date);content.append(head,message);card.append(createDoll(entry.a),content);fragment.append(card);}if(entries.length>messageLimit){const more=document.createElement('button');more.type='button';more.className='text-button';more.textContent='메시지 더 보기';more.addEventListener('click',()=>{messageLimit+=20;renderMessages();});fragment.append(more);}$('messageList').replaceChildren(fragment);}
-  $('gardenPrev').addEventListener('click',()=>{page--;renderGarden();});$('gardenNext').addEventListener('click',()=>{page++;renderGarden();});
   $('toggleMessages').addEventListener('click',()=>{const open=$('messageList').hidden;$('messageList').hidden=!open;$('toggleMessages').setAttribute('aria-expanded',String(open));$('toggleMessages').textContent=open?'축하 메시지 접기 ↑':'축하 메시지 모두 보기 ↓';if(open)renderMessages();});
   function updateMotion(){moving=moving&&!prefersReducedMotion.matches;$('garden').classList.toggle('motion-off',!moving);$('motionToggle').textContent=moving?'움직임 끄기':'움직임 켜기';$('motionToggle').setAttribute('aria-pressed',String(!moving));$('motionToggle').setAttribute('aria-label',moving?'캐릭터 움직임 끄기':'캐릭터 움직임 켜기');}
   $('motionToggle').addEventListener('click',()=>{if(prefersReducedMotion.matches){notify('기기의 동작 줄이기 설정을 따르고 있어요.');return;}moving=!moving;updateMotion();});prefersReducedMotion.addEventListener('change',()=>{moving=!prefersReducedMotion.matches;updateMotion();});updateMotion();
@@ -209,7 +261,7 @@
     }catch(e){setGuestbookError(e.message);if(!hasLoaded)$('gardenCount').textContent='축하 메시지를 불러오지 못했어요';}
     finally{loadingEntries=false;}
   }
-  async function entrance(entry){const button=[...$('gardenGuests').querySelectorAll('.character')].find(el=>el.dataset.key===entry.key);if(!button)return;$('garden').scrollIntoView({behavior:prefersReducedMotion.matches?'instant':'smooth',block:'center'});if(!moving||prefersReducedMotion.matches){notify(entry.n+' 님, 정원에 오신 걸 환영해요!');return;}button.classList.add('entering');const animation=button.animate([{transform:'translate(-50%, calc(-50% + 150px))',opacity:0},{transform:'translate(-50%, calc(-50% + 115px))',opacity:1,offset:.15},{transform:'translate(-50%, -50%)',opacity:1}],{duration:1800,easing:'ease-out'});button.querySelector('.doll').animate([{transform:'translateY(0) rotate(-3deg)'},{transform:'translateY(-5px) rotate(3deg)'},{transform:'translateY(0) rotate(-3deg)'}],{duration:300,iterations:6});try{await animation.finished;}catch{}button.classList.remove('entering');button.querySelector('.doll').animate([{transform:'translateY(0)'},{transform:'translateY(-11px)',offset:.4},{transform:'translateY(0)'}],{duration:550,easing:'ease-out'});for(let i=0;i<7;i++){const heart=document.createElement('span');heart.className='celebration-heart';heart.textContent=i%3===0?'✦':'♥';const slot=slots[entries.indexOf(entry)%PAGE_SIZE]||slots[0];heart.style.left=slot.x+'%';heart.style.top=(slot.y-7)+'%';$('gardenEffects').append(heart);const a=heart.animate([{transform:'translate(0,0) scale(.4)',opacity:0},{opacity:1,offset:.15},{transform:`translate(${(i-3)*20}px, ${-65-Math.abs(i-3)*9}px) scale(.9)`,opacity:0}],{duration:1100,delay:i*45,easing:'ease-out'});a.onfinish=()=>heart.remove();}notify(entry.n+' 님, 따뜻한 마음을 고맙게 간직할게요.');}
+  async function entrance(entry){const button=[...$('gardenGuests').querySelectorAll('.character')].find(el=>el.gardenEntry===entry);if(!button)return;$('garden').scrollIntoView({behavior:prefersReducedMotion.matches?'instant':'smooth',block:'center'});if(!moving||prefersReducedMotion.matches){notify(entry.n+' 님, 정원에 오신 걸 환영해요!');return;}button.classList.add('entering');const animation=button.animate([{transform:'translate(-50%, calc(-50% + 150px))',opacity:0},{transform:'translate(-50%, calc(-50% + 115px))',opacity:1,offset:.15},{transform:'translate(-50%, -50%)',opacity:1}],{duration:1800,easing:'ease-out'});button.querySelector('.doll').animate([{transform:'translateY(0) rotate(-3deg)'},{transform:'translateY(-5px) rotate(3deg)'},{transform:'translateY(0) rotate(-3deg)'}],{duration:300,iterations:6});try{await animation.finished;}catch{}button.classList.remove('entering');button.querySelector('.doll').animate([{transform:'translateY(0)'},{transform:'translateY(-11px)',offset:.4},{transform:'translateY(0)'}],{duration:550,easing:'ease-out'});for(let i=0;i<7;i++){const heart=document.createElement('span');heart.className='celebration-heart';heart.textContent=i%3===0?'✦':'♥';heart.style.left=button.style.getPropertyValue('--x');heart.style.top=(parseFloat(button.style.getPropertyValue('--y'))-7)+'%';$('gardenEffects').append(heart);const a=heart.animate([{transform:'translate(0,0) scale(.4)',opacity:0},{opacity:1,offset:.15},{transform:`translate(${(i-3)*20}px, ${-65-Math.abs(i-3)*9}px) scale(.9)`,opacity:0}],{duration:1100,delay:i*45,easing:'ease-out'});a.onfinish=()=>heart.remove();}notify(entry.n+' 님, 따뜻한 마음을 고맙게 간직할게요.');}
   $('guestbookForm').addEventListener('submit',async event=>{
     event.preventDefault();if(sending||shuffling)return;
     const n=$('guestName').value.trim(),m=$('guestMessage').value.trim();$('formError').hidden=true;
@@ -232,7 +284,7 @@
       let row={n,m,d:koreaDate(),a,id:pendingSubmission.id};
       if(preview){const saved=previewRead();if(!saved.some(item=>item.id===row.id)){saved.unshift(row);try{localStorage.setItem(storageKey,JSON.stringify(saved));}catch{transientEntries.unshift(row);}}}
       else row=await Data.register(n,m,a,pendingSubmission.id);
-      const entry=normalizeEntry(row);entries=entries.filter(item=>item.key!==entry.key);entries.unshift(entry);ownEntry=entry;page=0;lastSuccess=Date.now();hasLoaded=true;pendingSubmission=null;
+      const entry=normalizeEntry(row);entries=entries.filter(item=>item.key!==entry.key);entries.unshift(entry);ownEntry=entry;lastSuccess=Date.now();hasLoaded=true;pendingSubmission=null;
       renderGarden();if(!$('messageList').hidden)renderMessages();$('guestMessage').value='';$('messageLength').textContent='0 / 240';closeDialog($('writeDialog'));
       $('guestbookStatus').textContent=preview?'이 기기에 저장했어요. 공유 연결 후 다른 기기에서도 볼 수 있어요.':'';await entrance(entry);
     }catch(e){formError(e.message);}
@@ -241,5 +293,5 @@
   catalogReady=loadCatalog();catalogReady.catch(()=>{});
 
   renderGarden();
-  if('IntersectionObserver'in window){const gardenObserver=new IntersectionObserver(changes=>{changes.forEach(change=>{if(change.target===$('garden')){$('garden').classList.toggle('is-active',change.isIntersecting);if(change.isIntersecting)loadEntries();}});},{rootMargin:'100px'});gardenObserver.observe($('garden'));const navObserver=new IntersectionObserver(changes=>{for(const change of changes){if(change.isIntersecting){document.querySelectorAll('.bottom-nav a').forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+change.target.id));}}},{rootMargin:'-5% 0px -65% 0px',threshold:0});['top','date','location','guestbook'].forEach(id=>navObserver.observe($(id)));}else loadEntries();
+  if('IntersectionObserver'in window){const gardenObserver=new IntersectionObserver(changes=>{changes.forEach(change=>{if(change.target===$('garden')){$('garden').classList.toggle('is-active',change.isIntersecting);updateGardenRotation();if(change.isIntersecting)loadEntries();}});},{rootMargin:'100px'});gardenObserver.observe($('garden'));const navObserver=new IntersectionObserver(changes=>{for(const change of changes){if(change.isIntersecting){document.querySelectorAll('.bottom-nav a').forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+change.target.id));}}},{rootMargin:'-5% 0px -65% 0px',threshold:0});['top','date','location','guestbook'].forEach(id=>navObserver.observe($(id)));}else{$('garden').classList.add('is-active');loadEntries();}
 })();

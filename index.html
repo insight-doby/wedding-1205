@@ -169,7 +169,7 @@ button .icon,a .icon{flex-shrink:0}
 .garden-background{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
 .garden:after{content:'';position:absolute;inset:0;box-shadow:inset 0 0 23px #fffaf344;pointer-events:none;z-index:20}
 .garden-plaque{position:absolute;top:12%;left:0;right:0;font:italic clamp(13px,4vw,21px) var(--serif);color:#82694d;text-shadow:0 1px 4px #fff}
-.character{position:absolute;width:21%;aspect-ratio:1;left:var(--x);top:var(--y);padding:0;transform:translate(-50%,-50%);z-index:var(--z,3);filter:drop-shadow(0 5px 3px #7f684322)}
+.character{position:absolute;width:var(--guest-size,21%);aspect-ratio:1;left:var(--x);top:var(--y);padding:0;transform:translate(-50%,-50%);z-index:var(--z,3);filter:drop-shadow(0 5px 3px #7f684322)}
 .character .doll{width:100%;height:100%;transform-origin:50% 90%}
 .doll{display:block;aspect-ratio:1}
 .couple{width:26%;top:35%;filter:drop-shadow(0 5px 3px #71523020)}
@@ -331,7 +331,15 @@ dialog{padding:20px 18px}
 .avatar-pool-note{min-height:16px}
 .doll.missing-avatar:before{background-image:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNTYiIGhlaWdodD0iMjU2IiB2aWV3Qm94PSIwIDAgMjU2IDI1NiI+PHJlY3QgeD0iMzAiIHk9IjMwIiB3aWR0aD0iMTk2IiBoZWlnaHQ9IjE5NiIgcng9IjY4IiBmaWxsPSIjZWRkZmNmIi8+PHBhdGggZD0iTTk3IDkyYzEtMzMgNjUtMzkgNjcgMCAxIDIwLTM0IDIzLTM0IDQzIiBmaWxsPSJub25lIiBzdHJva2U9IiM5Zjc2NWMiIHN0cm9rZS13aWR0aD0iMTgiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxjaXJjbGUgY3g9IjEzMCIgY3k9IjE2OSIgcj0iMTAiIGZpbGw9IiM5Zjc2NWMiLz48cGF0aCBkPSJtMTk5IDQ2IDMgOSA5IDMtOSAzLTMgOS0zLTktOS0zIDktM3pNNTEgMTc2bDMgOCA4IDMtOCAzLTMgOC0zLTgtOC0zIDgtM3oiIGZpbGw9IiNiNjliNzIiLz48L3N2Zz4K");background-size:contain;background-position:center;width:80%}
 .garden.is-active:not(.motion-off) .character.guest:not(.entering){animation:guest-walk 14s ease-in-out infinite;animation-delay:var(--delay,0s)}
+.garden.dense .character.guest{filter:none}
+.garden.dense .character.guest .char-name{display:none}
+.garden.dense .character.guest:is(:hover,:focus-visible){z-index:30!important}
+.garden.dense .character.guest:is(:hover,:focus-visible) .char-name{display:block;z-index:1}
+.garden.dense .character.guest.is-mine .doll{outline:1px solid #a77c5e;border-radius:50%}
+.garden.crowded.is-active .character.guest:not(.animated-guest){animation:none!important}
 @keyframes guest-walk{0%,100%{transform:translate(-50%,-50%)}25%{transform:translate(calc(-50% + 10px),calc(-50% - 6px))}50%{transform:translate(calc(-50% - 9px),calc(-50% + 5px))}75%{transform:translate(calc(-50% - 4px),calc(-50% - 4px))}}
+.garden.dense.is-active:not(.motion-off) .character.guest:not(.entering){animation-name:guest-stroll}
+@keyframes guest-stroll{0%,100%{transform:translate(-50%,-50%)}25%{transform:translate(calc(-50% + 2px),calc(-50% - 2px))}50%{transform:translate(calc(-50% - 2px),calc(-50% + 2px))}75%{transform:translate(calc(-50% + 1px),calc(-50% - 1px))}}
 .bus-routes{margin-top:12px}
 .bus-routes p{display:grid;grid-template-columns:65px minmax(0,1fr);gap:8px;margin:7px 0;line-height:1.65;text-align:left}
 .bus-routes span{color:var(--ink);font-weight:500}
@@ -438,7 +446,7 @@ dialog{padding:20px 18px}
           <div class="garden-welcome" id="gardenWelcome"><span>첫 번째 축하의 주인공이 되어 주세요</span></div>
           <button class="motion-toggle" id="motionToggle" type="button" aria-pressed="false" aria-label="캐릭터 움직임 끄기">움직임 끄기</button>
         </div>
-        <div class="garden-bottom"><p id="gardenCount">마음을 모으는 중이에요</p><div class="garden-pagination" id="gardenPagination" hidden><button type="button" id="gardenPrev" aria-label="이전 하객들">←</button><span id="gardenPage"></span><button type="button" id="gardenNext" aria-label="다음 하객들">→</button></div></div>
+        <div class="garden-bottom"><p id="gardenCount">마음을 모으는 중이에요</p></div>
         <div class="guestbook-actions"><button class="primary-button" type="button" id="openGuestbook"><svg class="icon"><use href="#i-heart"/></svg>축하하러 입장하기<svg class="icon"><use href="#i-arrow"/></svg></button><p class="guestbook-hint">인형을 누르면 축하 메시지를 볼 수 있어요.</p><button class="text-button" id="toggleMessages" type="button" aria-expanded="false" aria-controls="messageList">축하 메시지 모두 보기 <span aria-hidden="true">↓</span></button><p id="guestbookStatus" class="guestbook-status" role="status"></p></div>
         <div class="message-list" id="messageList" hidden></div>
       </section>
