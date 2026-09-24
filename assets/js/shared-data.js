@@ -58,8 +58,203 @@
     }
     return items.map(row => ({ ...row, src: row.storage_path ? signed.get(row.storage_path) || '' : assetUrl(row.image_url) }));
   }
+  // 방명록 전용 추가 캐릭터. 기존 웨딩 갤러리 목록과 별도로 관리합니다.
+  const extraGuests = [
+  {
+    "id": 16,
+    "name": "라벤더 무스탕 · 카메라",
+    "image_url": "assets/images/guests/guest_016.png",
+    "active": true,
+    "region": null,
+    "atlas_size": null,
+    "season": [],
+    "personality": [],
+    "features": [],
+    "kind": "human"
+  },
+  {
+    "id": 107,
+    "name": "사원증 직장인",
+    "image_url": "assets/images/guests/guest_107.png",
+    "active": true,
+    "region": null,
+    "atlas_size": null,
+    "season": [],
+    "personality": [],
+    "features": [],
+    "kind": "human"
+  },
+  {
+    "id": 150,
+    "name": "반짝 카멜 퀼팅",
+    "image_url": "assets/images/guests/guest_150.png",
+    "active": true,
+    "region": null,
+    "atlas_size": null,
+    "season": [],
+    "personality": [],
+    "features": [],
+    "kind": "human"
+  },
+  {
+    "id": 174,
+    "name": "블루 코트 할머니",
+    "image_url": "assets/images/guests/guest_174.png",
+    "active": true,
+    "region": null,
+    "atlas_size": null,
+    "season": [],
+    "personality": [],
+    "features": [],
+    "kind": "human"
+  },
+  {
+    "id": 190,
+    "name": "버터 떡볶이코트 꼬마",
+    "image_url": "assets/images/guests/guest_190.png",
+    "active": true,
+    "region": null,
+    "atlas_size": null,
+    "season": [],
+    "personality": [],
+    "features": [],
+    "kind": "human"
+  },
+  {
+    "id": 204,
+    "name": "턱시도냥 · 코트",
+    "image_url": "assets/images/guests/guest_204.png",
+    "active": true,
+    "region": null,
+    "atlas_size": null,
+    "season": [],
+    "personality": [],
+    "features": [],
+    "kind": "cat"
+  },
+  {
+    "id": 234,
+    "name": "시바 · 하트",
+    "image_url": "assets/images/guests/guest_234.png",
+    "active": true,
+    "region": null,
+    "atlas_size": null,
+    "season": [],
+    "personality": [],
+    "features": [],
+    "kind": "dog"
+  },
+  {
+    "id": 268,
+    "name": "오리 · 멜빵",
+    "image_url": "assets/images/guests/guest_268.png",
+    "active": true,
+    "region": null,
+    "atlas_size": null,
+    "season": [],
+    "personality": [],
+    "features": [],
+    "kind": "bird"
+  },
+  {
+    "id": 295,
+    "name": "북극곰 · 선물",
+    "image_url": "assets/images/guests/guest_295.png",
+    "active": true,
+    "region": null,
+    "atlas_size": null,
+    "season": [],
+    "personality": [],
+    "features": [],
+    "kind": "bear"
+  },
+  {
+    "id": 300,
+    "name": "토끼 · 멜빵",
+    "image_url": "assets/images/guests/guest_300.png",
+    "active": true,
+    "region": null,
+    "atlas_size": null,
+    "season": [],
+    "personality": [],
+    "features": [],
+    "kind": "rabbit"
+  },
+  {
+    "id": 329,
+    "name": "라벤더 목도리 친구",
+    "image_url": "assets/images/guests/guest_329.png",
+    "active": true,
+    "region": null,
+    "atlas_size": null,
+    "season": [],
+    "personality": [],
+    "features": [],
+    "kind": "human"
+  },
+  {
+    "id": 330,
+    "name": "웃는 회사원",
+    "image_url": "assets/images/guests/guest_330.png",
+    "active": true,
+    "region": null,
+    "atlas_size": null,
+    "season": [],
+    "personality": [],
+    "features": [],
+    "kind": "human"
+  },
+  {
+    "id": 331,
+    "name": "버건디 코트 친구",
+    "image_url": "assets/images/guests/guest_331.png",
+    "active": true,
+    "region": null,
+    "atlas_size": null,
+    "season": [],
+    "personality": [],
+    "features": [],
+    "kind": "human"
+  },
+  {
+    "id": 332,
+    "name": "윙크하는 노랑 고양이",
+    "image_url": "assets/images/guests/guest_332.png",
+    "active": true,
+    "region": null,
+    "atlas_size": null,
+    "season": [],
+    "personality": [],
+    "features": [],
+    "kind": "cat"
+  },
+  {
+    "id": 333,
+    "name": "꽃다발 든 강아지",
+    "image_url": "assets/images/guests/guest_333.png",
+    "active": true,
+    "region": null,
+    "atlas_size": null,
+    "season": [],
+    "personality": [],
+    "features": [],
+    "kind": "dog"
+  },
+  {
+    "id": 334,
+    "name": "인사하는 닭",
+    "image_url": "assets/images/guests/guest_334.png",
+    "active": true,
+    "region": null,
+    "atlas_size": null,
+    "season": [],
+    "personality": [],
+    "features": [],
+    "kind": "bird"
+  }
+];
   const fallback = {
-    characters: (window.WEDDING_FALLBACK?.characters || []).map(row => ({ ...row, src: assetUrl(row.image_url), label: row.name, atlasSize: row.atlas_size })),
+    characters: [...(window.WEDDING_FALLBACK?.characters || []), ...extraGuests].map(row => ({ ...row, src: assetUrl(row.image_url), label: row.name, atlasSize: row.atlas_size })),
     gallery: (window.WEDDING_FALLBACK?.gallery || []).map(row => ({ ...row, src: assetUrl(row.image_url) }))
   };
   async function catalog(admin = false) {
