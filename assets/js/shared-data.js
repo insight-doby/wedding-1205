@@ -491,7 +491,23 @@
     "personality": [],
     "features": [],
     "kind": "otter"
-  }
+  },
+  {"id":355,"name":"카메라 든 고양이","image_url":"assets/images/guests/guest_355.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"cat"},
+  {"id":356,"name":"꽃다발 든 카피바라","image_url":"assets/images/guests/guest_356.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"capybara"},
+  {"id":357,"name":"풍선 든 아기 펭귄","image_url":"assets/images/guests/guest_357.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"bird"},
+  {"id":358,"name":"초대장 든 고슴도치","image_url":"assets/images/guests/guest_358.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"hedgehog"},
+  {"id":198,"name":"치즈냥 · 떡볶이코트","image_url":"assets/images/guests/guest_198.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"cat"},
+  {"id":231,"name":"푸들 · 하트","image_url":"assets/images/guests/guest_231.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"dog"},
+  {"id":281,"name":"참새 · 꽃다발","image_url":"assets/images/guests/guest_281.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"bird"},
+  {"id":359,"name":"토끼 · 멜빵 (새 모습)","image_url":"assets/images/guests/guest_359.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"rabbit"},
+  {"id":19,"name":"베이지 꽈배기니트 · 선물","image_url":"assets/images/guests/guest_019.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
+  {"id":104,"name":"서류가방 사원","image_url":"assets/images/guests/guest_104.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
+  {"id":360,"name":"반짝 카멜 퀼팅 (새 모습)","image_url":"assets/images/guests/guest_360.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
+  {"id":361,"name":"블루 코트 할머니 (새 모습)","image_url":"assets/images/guests/guest_361.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
+  {"id":75,"name":"라벤더 노르딕니트 · 목도리","image_url":"assets/images/guests/guest_075.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
+  {"id":58,"name":"세이지 롱패딩 · 안경","image_url":"assets/images/guests/guest_058.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
+  {"id":130,"name":"그레이 블레이저 부장님","image_url":"assets/images/guests/guest_130.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
+  {"id":168,"name":"블루 퀼팅 · 꽃다발","image_url":"assets/images/guests/guest_168.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"}
 ];
   const fallback = {
     characters: [...(window.WEDDING_FALLBACK?.characters || []), ...extraGuests].map(row => ({ ...row, src: assetUrl(row.image_url), label: row.name, atlasSize: row.atlas_size })),
