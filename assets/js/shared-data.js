@@ -517,7 +517,17 @@
   {"id":144,"name":"버건디 롱코트 · 봉투","image_url":"assets/images/guests/guest_144.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
   {"id":182,"name":"라벤더 코트 할머니","image_url":"assets/images/guests/guest_182.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
   {"id":237,"name":"진돗개 · 꽃다발","image_url":"assets/images/guests/guest_237.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"dog"},
-  {"id":285,"name":"원앙 · 멜빵","image_url":"assets/images/guests/guest_285.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"bird"}
+  {"id":285,"name":"원앙 · 멜빵","image_url":"assets/images/guests/guest_285.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"bird"},
+  {"id":362,"name":"몸짱 남자 · 역도 선수","image_url":"assets/images/guests/guest_362.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":["athletic"],"features":["muscular"],"kind":"human"},
+  {"id":363,"name":"몸짱 남자 · 암벽등반","image_url":"assets/images/guests/guest_363.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":["athletic"],"features":["muscular"],"kind":"human"},
+  {"id":364,"name":"몸짱 남자 · 복싱","image_url":"assets/images/guests/guest_364.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":["athletic"],"features":["muscular"],"kind":"human"},
+  {"id":365,"name":"몸짱 남자 · 농구","image_url":"assets/images/guests/guest_365.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":["athletic"],"features":["muscular"],"kind":"human"},
+  {"id":366,"name":"몸짱 남자 · 러닝 코치","image_url":"assets/images/guests/guest_366.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":["athletic"],"features":["muscular"],"kind":"human"},
+  {"id":367,"name":"몸짱 여자 · 역도 선수","image_url":"assets/images/guests/guest_367.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":["athletic"],"features":["muscular"],"kind":"human"},
+  {"id":368,"name":"몸짱 여자 · 복싱","image_url":"assets/images/guests/guest_368.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":["athletic"],"features":["muscular"],"kind":"human"},
+  {"id":369,"name":"몸짱 여자 · 암벽등반","image_url":"assets/images/guests/guest_369.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":["athletic"],"features":["muscular"],"kind":"human"},
+  {"id":370,"name":"몸짱 여자 · 수영 선수","image_url":"assets/images/guests/guest_370.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":["athletic"],"features":["muscular"],"kind":"human"},
+  {"id":371,"name":"몸짱 여자 · 농구","image_url":"assets/images/guests/guest_371.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":["athletic"],"features":["muscular"],"kind":"human"}
 ];
   const fallback = {
     characters: [...(window.WEDDING_FALLBACK?.characters || []), ...extraGuests].map(row => ({ ...row, src: assetUrl(row.image_url), label: row.name, atlasSize: row.atlas_size })),
