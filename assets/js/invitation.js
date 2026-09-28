@@ -8,13 +8,16 @@
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const storageKey = 'two-winters-preview-v1';
   const MAX_GARDEN_GUESTS = 50;
+  const walkStyle = document.createElement('style');
+  walkStyle.textContent = '.garden.is-active:not(.motion-off) .character.guest:not(.entering){animation:none!important;transition:left 3.1s ease-in-out,top 3.1s ease-in-out}.garden.motion-off .character.guest{transition:none!important}@media(prefers-reduced-motion:reduce){.garden .character.guest{transition:none!important}}';
+  document.head.append(walkStyle);
   let guestAvatars = preview ? Data.fallback.characters.filter(a => a.active) : [];
   let avatarById = new Map((preview ? Data.fallback.characters : []).map(a => [a.id, a]));
   const failedAvatarIds = new Set();
   const verifiedImages = new Set();
   let visibleAvatarIds = [], selectedAvatarId = 'random', shuffling = false;
   let catalogReady = Promise.resolve(), catalogUpdatedAt = 0, pendingSubmission = null;
-  let entries = [], shownEntries = [], waitingEntries = [], rotationSlot = 0, rotationTimer;
+  let entries = [], shownEntries = [], waitingEntries = [], rotationSlot = 0, rotationTimer, walkTimer;
   let selectedPhoto = 0, messageLimit = 20, ownEntry = null, moving = !prefersReducedMotion.matches, sending = false, currentOpener = null, lastSuccess = 0, hasLoaded = false;
   const transientEntries = [];
   let toastTimer;
@@ -190,8 +193,41 @@
     const rows=Math.max(1,Math.ceil(count/columns));
     return Array.from({length:count},(_,i)=>{
       const row=Math.floor(i/columns);
-      return {x:5+90*(i%columns+.5)/columns,y:52+36*(row+.5)/rows,size:Math.min(21,80/columns,36/rows*1.05),z:4+row};
+      const seed=hash(shownEntries[i]?.key ?? i);
+      return {x:5+90*(i%columns+.5)/columns+((seed%7)-3)*.24,y:52+36*(row+.5)/rows+((Math.floor(seed/7)%7)-3)*.18,size:Math.min(21,80/columns,36/rows*1.05),z:4+row};
     });
+  }
+  function wanderGarden() {
+    const buttons=[...$('gardenGuests').children], crowded=buttons.length>36;
+    const clamp=(value,min,max)=>Math.min(max,Math.max(min,value));
+    for(const button of buttons){
+      if(button.classList.contains('entering'))continue;
+      const p=button.gardenPosition;
+      if(!p || Math.random()<.16)continue;
+      const reachX=crowded?5:11,reachY=crowded?3:6;
+      for(let attempt=0;attempt<5;attempt++){
+        const x=clamp(p.x+(Math.random()-.5)*(crowded?6:10),Math.max(p.homeX-reachX,p.size/2+3),Math.min(p.homeX+reachX,97-p.size/2));
+        const y=clamp(p.y+(Math.random()-.5)*(crowded?4:7),Math.max(p.homeY-reachY,53),Math.min(p.homeY+reachY,88));
+        if(Math.abs(x-p.x)+Math.abs(y-p.y)<.7)continue;
+        const blocked=buttons.some(other=>{
+          if(other===button || !other.gardenPosition)return false;
+          const q=other.gardenPosition;
+          return Math.abs(x-q.x)<(p.size+q.size)*.42 && Math.abs(y-q.y)<(p.size+q.size)*.38;
+        });
+        if(blocked)continue;
+        p.x=x;p.y=y;
+        button.style.setProperty('--x',x.toFixed(2)+'%');
+        button.style.setProperty('--y',y.toFixed(2)+'%');
+        break;
+      }
+    }
+  }
+  function updateGardenWalk() {
+    clearInterval(walkTimer);
+    if(moving && $('garden').classList.contains('is-active') && shownEntries.length){
+      wanderGarden();
+      walkTimer=setInterval(wanderGarden,3200);
+    }
   }
   function putGuest(button,entry) {
     button.gardenEntry=entry;
@@ -227,12 +263,13 @@
     const slots=gardenSlots(shownEntries.length), fragment=document.createDocumentFragment();
     shownEntries.forEach((entry,i)=>{
       const button=document.createElement('button');button.type='button';
-      button.className='character guest'+(shownEntries.length>36&&i%2?'':' animated-guest');
+      button.className='character guest';
       button.style.setProperty('--x',slots[i].x+'%');
       button.style.setProperty('--y',slots[i].y+'%');
       button.style.setProperty('--guest-size',slots[i].size+'%');
       button.style.setProperty('--z',String(slots[i].z));
       button.style.setProperty('--delay',(-i*.37)+'s');
+      button.gardenPosition={homeX:slots[i].x,homeY:slots[i].y,x:slots[i].x,y:slots[i].y,size:slots[i].size};
       button.addEventListener('click',()=>showMessage(button.gardenEntry,button));
       putGuest(button,entry);fragment.append(button);
     });
@@ -242,10 +279,11 @@
     $('gardenWelcome').hidden=entries.length>0;
     $('gardenCount').textContent=entries.length?`${entries.length}개의 따뜻한 마음이 함께하고 있어요`:'첫 번째 축하를 기다리고 있어요';
     updateGardenRotation();
+    updateGardenWalk();
   }
   function renderMessages(){const fragment=document.createDocumentFragment();if(!entries.length){const p=document.createElement('p');p.className='message-list-empty';p.textContent='첫 번째 축하 메시지를 남겨 주세요.';fragment.append(p);}for(const entry of entries.slice(0,messageLimit)){const card=document.createElement('article');card.className='message-card';const content=document.createElement('div');content.className='message-card-content';const head=document.createElement('div');head.className='message-card-head';const name=document.createElement('strong');name.textContent=entry.n;const date=document.createElement('time');date.textContent=entry.d;const message=document.createElement('p');message.textContent=entry.m;head.append(name,date);content.append(head,message);card.append(createDoll(entry.a),content);fragment.append(card);}if(entries.length>messageLimit){const more=document.createElement('button');more.type='button';more.className='text-button';more.textContent='메시지 더 보기';more.addEventListener('click',()=>{messageLimit+=20;renderMessages();});fragment.append(more);}$('messageList').replaceChildren(fragment);}
   $('toggleMessages').addEventListener('click',()=>{const open=$('messageList').hidden;$('messageList').hidden=!open;$('toggleMessages').setAttribute('aria-expanded',String(open));$('toggleMessages').textContent=open?'축하 메시지 접기 ↑':'축하 메시지 모두 보기 ↓';if(open)renderMessages();});
-  function updateMotion(){moving=moving&&!prefersReducedMotion.matches;$('garden').classList.toggle('motion-off',!moving);$('motionToggle').textContent=moving?'움직임 끄기':'움직임 켜기';$('motionToggle').setAttribute('aria-pressed',String(!moving));$('motionToggle').setAttribute('aria-label',moving?'캐릭터 움직임 끄기':'캐릭터 움직임 켜기');}
+  function updateMotion(){moving=moving&&!prefersReducedMotion.matches;$('garden').classList.toggle('motion-off',!moving);$('motionToggle').textContent=moving?'움직임 끄기':'움직임 켜기';$('motionToggle').setAttribute('aria-pressed',String(!moving));$('motionToggle').setAttribute('aria-label',moving?'캐릭터 움직임 끄기':'캐릭터 움직임 켜기');updateGardenWalk();}
   $('motionToggle').addEventListener('click',()=>{if(prefersReducedMotion.matches){notify('기기의 동작 줄이기 설정을 따르고 있어요.');return;}moving=!moving;updateMotion();});prefersReducedMotion.addEventListener('change',()=>{moving=!prefersReducedMotion.matches;updateMotion();});updateMotion();
 
   function previewRead(){try{const value=JSON.parse(localStorage.getItem(storageKey)||'[]');return Array.isArray(value)?value:[];}catch{return [];}}
@@ -293,5 +331,5 @@
   catalogReady=loadCatalog();catalogReady.catch(()=>{});
 
   renderGarden();
-  if('IntersectionObserver'in window){const gardenObserver=new IntersectionObserver(changes=>{changes.forEach(change=>{if(change.target===$('garden')){$('garden').classList.toggle('is-active',change.isIntersecting);updateGardenRotation();if(change.isIntersecting)loadEntries();}});},{rootMargin:'100px'});gardenObserver.observe($('garden'));const navObserver=new IntersectionObserver(changes=>{for(const change of changes){if(change.isIntersecting){document.querySelectorAll('.bottom-nav a').forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+change.target.id));}}},{rootMargin:'-5% 0px -65% 0px',threshold:0});['top','date','location','guestbook'].forEach(id=>navObserver.observe($(id)));}else{$('garden').classList.add('is-active');loadEntries();}
+  if('IntersectionObserver'in window){const gardenObserver=new IntersectionObserver(changes=>{changes.forEach(change=>{if(change.target===$('garden')){$('garden').classList.toggle('is-active',change.isIntersecting);updateGardenRotation();updateGardenWalk();if(change.isIntersecting)loadEntries();}});},{rootMargin:'100px'});gardenObserver.observe($('garden'));const navObserver=new IntersectionObserver(changes=>{for(const change of changes){if(change.isIntersecting){document.querySelectorAll('.bottom-nav a').forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+change.target.id));}}},{rootMargin:'-5% 0px -65% 0px',threshold:0});['top','date','location','guestbook'].forEach(id=>navObserver.observe($(id)));}else{$('garden').classList.add('is-active');updateGardenWalk();loadEntries();}
 })();
