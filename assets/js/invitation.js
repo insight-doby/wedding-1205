@@ -9,7 +9,14 @@
   const storageKey = 'two-winters-preview-v1';
   const MAX_GARDEN_GUESTS = 50;
   const walkStyle = document.createElement('style');
-  walkStyle.textContent = '.garden.is-active:not(.motion-off) .character.guest:not(.entering){animation:none!important;transition:left 3.1s ease-in-out,top 3.1s ease-in-out}.garden.motion-off .character.guest{transition:none!important}@media(prefers-reduced-motion:reduce){.garden .character.guest{transition:none!important}}';
+  walkStyle.textContent = [
+    '.garden.is-active:not(.motion-off) .character.guest:not(.entering){animation:none!important;transition:left 3.1s ease-in-out,top 3.1s ease-in-out}',
+    '.garden.motion-off .character.guest{transition:none!important}',
+    '.garden.dense .character.guest .char-name{display:block;max-width:calc(100% + 8px);font-size:9px;line-height:1.3;padding:1px 2px}',
+    '.garden.crowded{aspect-ratio:auto;min-height:620px}',
+    '.garden.crowded .character.guest .char-name{font-size:8px}',
+    '@media(prefers-reduced-motion:reduce){.garden .character.guest{transition:none!important}}'
+  ].join('');
   document.head.append(walkStyle);
   let guestAvatars = preview ? Data.fallback.characters.filter(a => a.active) : [];
   let avatarById = new Map((preview ? Data.fallback.characters : []).map(a => [a.id, a]));
