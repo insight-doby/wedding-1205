@@ -527,7 +527,17 @@
   {"id":368,"name":"몸짱 여자 · 복싱","image_url":"assets/images/guests/guest_368.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":["athletic"],"features":["muscular"],"kind":"human"},
   {"id":369,"name":"몸짱 여자 · 암벽등반","image_url":"assets/images/guests/guest_369.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":["athletic"],"features":["muscular"],"kind":"human"},
   {"id":370,"name":"몸짱 여자 · 수영 선수","image_url":"assets/images/guests/guest_370.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":["athletic"],"features":["muscular"],"kind":"human"},
-  {"id":371,"name":"몸짱 여자 · 농구","image_url":"assets/images/guests/guest_371.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":["athletic"],"features":["muscular"],"kind":"human"}
+  {"id":371,"name":"몸짱 여자 · 농구","image_url":"assets/images/guests/guest_371.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":["athletic"],"features":["muscular"],"kind":"human"},
+  {"id":33,"name":"베이지 꽈배기니트 · 봉투","image_url":"assets/images/guests/guest_033.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
+  {"id":92,"name":"피치 가디건 · 꽃다발","image_url":"assets/images/guests/guest_092.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
+  {"id":148,"name":"피치 퀼팅 · 꽃다발","image_url":"assets/images/guests/guest_148.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
+  {"id":163,"name":"세이지 트위드 · 안경","image_url":"assets/images/guests/guest_163.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
+  {"id":188,"name":"베이지 정장 꼬마숙녀","image_url":"assets/images/guests/guest_188.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
+  {"id":196,"name":"피치 정장 꼬마","image_url":"assets/images/guests/guest_196.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
+  {"id":203,"name":"삼색냥 · 하트","image_url":"assets/images/guests/guest_203.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"cat"},
+  {"id":236,"name":"진돗개 · 조끼","image_url":"assets/images/guests/guest_236.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"dog"},
+  {"id":286,"name":"원앙 · 노르딕니트","image_url":"assets/images/guests/guest_286.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"bird"},
+  {"id":323,"name":"아기호랑이 · 떡볶이코트","image_url":"assets/images/guests/guest_323.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"tiger"}
 ];
   const fallback = {
     characters: [...(window.WEDDING_FALLBACK?.characters || []), ...extraGuests].map(row => ({ ...row, src: assetUrl(row.image_url), label: row.name, atlasSize: row.atlas_size })),
