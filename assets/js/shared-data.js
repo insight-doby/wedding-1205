@@ -507,7 +507,17 @@
   {"id":75,"name":"라벤더 노르딕니트 · 목도리","image_url":"assets/images/guests/guest_075.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
   {"id":58,"name":"세이지 롱패딩 · 안경","image_url":"assets/images/guests/guest_058.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
   {"id":130,"name":"그레이 블레이저 부장님","image_url":"assets/images/guests/guest_130.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
-  {"id":168,"name":"블루 퀼팅 · 꽃다발","image_url":"assets/images/guests/guest_168.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"}
+  {"id":168,"name":"블루 퀼팅 · 꽃다발","image_url":"assets/images/guests/guest_168.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
+  {"id":22,"name":"세이지 숏패딩 · 목도리","image_url":"assets/images/guests/guest_022.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
+  {"id":102,"name":"서류가방 주임님","image_url":"assets/images/guests/guest_102.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
+  {"id":153,"name":"반짝 블루 정장","image_url":"assets/images/guests/guest_153.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
+  {"id":179,"name":"반짝 할아버지 2","image_url":"assets/images/guests/guest_179.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
+  {"id":25,"name":"크림 떡볶이코트 · 핸드백","image_url":"assets/images/guests/guest_025.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
+  {"id":116,"name":"브라운 가디건 주임님","image_url":"assets/images/guests/guest_116.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
+  {"id":144,"name":"버건디 롱코트 · 봉투","image_url":"assets/images/guests/guest_144.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
+  {"id":182,"name":"라벤더 코트 할머니","image_url":"assets/images/guests/guest_182.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
+  {"id":237,"name":"진돗개 · 꽃다발","image_url":"assets/images/guests/guest_237.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"dog"},
+  {"id":285,"name":"원앙 · 멜빵","image_url":"assets/images/guests/guest_285.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"bird"}
 ];
   const fallback = {
     characters: [...(window.WEDDING_FALLBACK?.characters || []), ...extraGuests].map(row => ({ ...row, src: assetUrl(row.image_url), label: row.name, atlasSize: row.atlas_size })),
