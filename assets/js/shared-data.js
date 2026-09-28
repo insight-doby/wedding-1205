@@ -557,7 +557,17 @@
   {"id":187,"name":"라벤더 코트 할머니 2","image_url":"assets/images/guests/guest_187.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
   {"id":212,"name":"스코티시폴드 · 니트","image_url":"assets/images/guests/guest_212.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"cat"},
   {"id":241,"name":"웰시코기 · 노르딕니트","image_url":"assets/images/guests/guest_241.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"dog"},
-  {"id":302,"name":"롭이어토끼 · 꽃다발","image_url":"assets/images/guests/guest_302.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"rabbit"}
+  {"id":302,"name":"롭이어토끼 · 꽃다발","image_url":"assets/images/guests/guest_302.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"rabbit"},
+  {"id":372,"name":"책가방 든 남학생","image_url":"assets/images/guests/guest_372.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":["student"],"kind":"human"},
+  {"id":373,"name":"도서관 여학생","image_url":"assets/images/guests/guest_373.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":["student"],"kind":"human"},
+  {"id":374,"name":"드러머 친구","image_url":"assets/images/guests/guest_374.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
+  {"id":375,"name":"베이커 친구","image_url":"assets/images/guests/guest_375.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
+  {"id":376,"name":"식물집사","image_url":"assets/images/guests/guest_376.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
+  {"id":377,"name":"자전거 정비사","image_url":"assets/images/guests/guest_377.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
+  {"id":378,"name":"스트리트 댄서","image_url":"assets/images/guests/guest_378.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
+  {"id":379,"name":"건축가","image_url":"assets/images/guests/guest_379.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
+  {"id":380,"name":"바리스타","image_url":"assets/images/guests/guest_380.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
+  {"id":381,"name":"러닝 동호회","image_url":"assets/images/guests/guest_381.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"}
 ];
   const fallback = {
     characters: [...(window.WEDDING_FALLBACK?.characters || []), ...extraGuests].map(row => ({ ...row, src: assetUrl(row.image_url), label: row.name, atlasSize: row.atlas_size })),
