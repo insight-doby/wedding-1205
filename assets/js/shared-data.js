@@ -567,7 +567,17 @@
   {"id":378,"name":"스트리트 댄서","image_url":"assets/images/guests/guest_378.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
   {"id":379,"name":"건축가","image_url":"assets/images/guests/guest_379.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
   {"id":380,"name":"바리스타","image_url":"assets/images/guests/guest_380.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
-  {"id":381,"name":"러닝 동호회","image_url":"assets/images/guests/guest_381.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"}
+  {"id":381,"name":"러닝 동호회","image_url":"assets/images/guests/guest_381.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
+  {"id":382,"name":"목도리 알파카","image_url":"assets/images/guests/guest_382.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"alpaca"},
+  {"id":383,"name":"졸린 코알라","image_url":"assets/images/guests/guest_383.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"koala"},
+  {"id":384,"name":"버섯 가방 꽃사슴","image_url":"assets/images/guests/guest_384.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"deer"},
+  {"id":385,"name":"빨간 비니 물개","image_url":"assets/images/guests/guest_385.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"seal"},
+  {"id":386,"name":"우비 입은 개구리","image_url":"assets/images/guests/guest_386.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"frog"},
+  {"id":387,"name":"꽃다발 미어캣","image_url":"assets/images/guests/guest_387.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"meerkat"},
+  {"id":388,"name":"레코드 수집가","image_url":"assets/images/guests/guest_388.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
+  {"id":389,"name":"색소폰 연주자","image_url":"assets/images/guests/guest_389.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
+  {"id":390,"name":"도자기 공방 친구","image_url":"assets/images/guests/guest_390.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
+  {"id":391,"name":"독립서점 친구","image_url":"assets/images/guests/guest_391.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"}
 ];
   const fallback = {
     characters: [...(window.WEDDING_FALLBACK?.characters || []), ...extraGuests].map(row => ({ ...row, src: assetUrl(row.image_url), label: row.name, atlasSize: row.atlas_size })),
