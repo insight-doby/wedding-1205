@@ -547,7 +547,17 @@
   {"id":210,"name":"페르시안 · 코트","image_url":"assets/images/guests/guest_210.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"cat"},
   {"id":248,"name":"비글 · 하트","image_url":"assets/images/guests/guest_248.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"dog"},
   {"id":266,"name":"병아리 · 니트","image_url":"assets/images/guests/guest_266.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"bird"},
-  {"id":307,"name":"레서판다 · 선물","image_url":"assets/images/guests/guest_307.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"red panda"}
+  {"id":307,"name":"레서판다 · 선물","image_url":"assets/images/guests/guest_307.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"red panda"},
+  {"id":50,"name":"반짝 네이비 꽈배기니트","image_url":"assets/images/guests/guest_050.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
+  {"id":161,"name":"민트 트위드 · 벙어리장갑","image_url":"assets/images/guests/guest_161.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
+  {"id":105,"name":"서류철 사원","image_url":"assets/images/guests/guest_105.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
+  {"id":180,"name":"라벤더 트위드 할아버지","image_url":"assets/images/guests/guest_180.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
+  {"id":103,"name":"그레이 니트조끼 대리님","image_url":"assets/images/guests/guest_103.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
+  {"id":145,"name":"크림 롱코트 · 진주목걸이","image_url":"assets/images/guests/guest_145.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
+  {"id":187,"name":"라벤더 코트 할머니 2","image_url":"assets/images/guests/guest_187.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
+  {"id":212,"name":"스코티시폴드 · 니트","image_url":"assets/images/guests/guest_212.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"cat"},
+  {"id":241,"name":"웰시코기 · 노르딕니트","image_url":"assets/images/guests/guest_241.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"dog"},
+  {"id":302,"name":"롭이어토끼 · 꽃다발","image_url":"assets/images/guests/guest_302.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"rabbit"}
 ];
   const fallback = {
     characters: [...(window.WEDDING_FALLBACK?.characters || []), ...extraGuests].map(row => ({ ...row, src: assetUrl(row.image_url), label: row.name, atlasSize: row.atlas_size })),
