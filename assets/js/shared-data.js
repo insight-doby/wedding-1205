@@ -597,7 +597,16 @@
   {"id":404,"name":"롤러스케이트 해달","image_url":"assets/images/guests/guest_404.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"otter"},
   {"id":405,"name":"폭죽 든 여우","image_url":"assets/images/guests/guest_405.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"fox"},
   {"id":406,"name":"우산 춤추는 오리","image_url":"assets/images/guests/guest_406.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"bird"},
-  {"id":407,"name":"트럼펫 악어","image_url":"assets/images/guests/guest_407.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"crocodile"}
+  {"id":407,"name":"트럼펫 악어","image_url":"assets/images/guests/guest_407.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"crocodile"},
+  {"id":409,"name":"도라에몽","image_url":"assets/images/guests/guest_409.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"cat"},
+  {"id":410,"name":"케로 (카드캡터 체리)","image_url":"assets/images/guests/guest_410.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"creature"},
+  {"id":411,"name":"짱구","image_url":"assets/images/guests/guest_411.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
+  {"id":412,"name":"루피 (원피스)","image_url":"assets/images/guests/guest_412.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
+  {"id":413,"name":"루피 (뽀로로)","image_url":"assets/images/guests/guest_413.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"beaver"},
+  {"id":414,"name":"하츄핑 (티니핑)","image_url":"assets/images/guests/guest_414.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"creature"},
+  {"id":415,"name":"라이언 (카카오프렌즈)","image_url":"assets/images/guests/guest_415.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"lion"},
+  {"id":416,"name":"갑옷 거인 (진격의 거인)","image_url":"assets/images/guests/guest_416.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"creature"},
+  {"id":417,"name":"가영 (이누야샤)","image_url":"assets/images/guests/guest_417.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"}
 ];
   const fallback = {
     characters: [...(window.WEDDING_FALLBACK?.characters || []), ...extraGuests].map(row => ({ ...row, src: assetUrl(row.image_url), label: row.name, atlasSize: row.atlas_size })),
