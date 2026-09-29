@@ -577,7 +577,17 @@
   {"id":388,"name":"레코드 수집가","image_url":"assets/images/guests/guest_388.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
   {"id":389,"name":"색소폰 연주자","image_url":"assets/images/guests/guest_389.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
   {"id":390,"name":"도자기 공방 친구","image_url":"assets/images/guests/guest_390.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
-  {"id":391,"name":"독립서점 친구","image_url":"assets/images/guests/guest_391.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"}
+  {"id":391,"name":"독립서점 친구","image_url":"assets/images/guests/guest_391.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
+  {"id":392,"name":"파티 모자 쿼카","image_url":"assets/images/guests/guest_392.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"quokka"},
+  {"id":393,"name":"목도리 페럿","image_url":"assets/images/guests/guest_393.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"ferret"},
+  {"id":394,"name":"카메라 든 바다거북","image_url":"assets/images/guests/guest_394.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"turtle"},
+  {"id":395,"name":"소풍 가는 아기염소","image_url":"assets/images/guests/guest_395.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"goat"},
+  {"id":396,"name":"라벤더 조끼 우파루파","image_url":"assets/images/guests/guest_396.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"axolotl"},
+  {"id":397,"name":"책 읽는 두루미","image_url":"assets/images/guests/guest_397.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"bird"},
+  {"id":398,"name":"만화가 친구","image_url":"assets/images/guests/guest_398.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
+  {"id":399,"name":"티 소믈리에","image_url":"assets/images/guests/guest_399.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
+  {"id":400,"name":"바이올리니스트","image_url":"assets/images/guests/guest_400.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"},
+  {"id":401,"name":"별 관찰러","image_url":"assets/images/guests/guest_401.webp","active":true,"region":null,"atlas_size":null,"season":[],"personality":[],"features":[],"kind":"human"}
 ];
   const fallback = {
     characters: [...(window.WEDDING_FALLBACK?.characters || []), ...extraGuests].map(row => ({ ...row, src: assetUrl(row.image_url), label: row.name, atlasSize: row.atlas_size })),
