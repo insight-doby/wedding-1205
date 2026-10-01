@@ -22,12 +22,12 @@
   shuffleStyle.textContent = `
     .avatar-toolbar{gap:8px;margin:22px 0 9px}
     .avatar-toolbar>span{line-height:1.35}
-    .avatar-toolbar .shuffle-avatars{position:relative;display:flex;align-items:center;justify-content:center;gap:5px;flex:none;width:148px;min-width:148px;height:48px;min-height:48px;margin:0;padding:4px 8px 4px 5px;border:1px solid #b77f60;border-radius:13px;background:linear-gradient(145deg,#fff9ef,#efd7bf);color:#694631;box-shadow:0 3px 0 #c89d7d,0 6px 12px #a7774e26;font-size:12px;font-weight:700;line-height:1.2;white-space:nowrap;transition:transform .18s,box-shadow .18s,background .18s}
+    .avatar-toolbar .shuffle-avatars{position:relative;display:flex;align-items:center;justify-content:center;gap:3px;flex:none;width:118px;min-width:118px;height:40px;min-height:40px;margin:0;padding:3px 5px;border:1px solid #b77f60;border-radius:11px;background:linear-gradient(145deg,#fff9ef,#efd7bf);color:#694631;box-shadow:0 2px 0 #c89d7d,0 4px 9px #a7774e26;font-size:11px;font-weight:700;line-height:1.2;white-space:nowrap;transition:transform .18s,box-shadow .18s,background .18s}
     .avatar-toolbar .shuffle-avatars:hover{background:linear-gradient(145deg,#fff5e7,#eacbaa)}
     .avatar-toolbar .shuffle-avatars:active{transform:translateY(2px);box-shadow:0 1px 0 #c89d7d,0 3px 7px #a7774e26}
     .avatar-toolbar .shuffle-avatars:focus-visible{outline:3px solid #a87457;outline-offset:3px}
     .avatar-toolbar .shuffle-avatars:disabled{opacity:.7;cursor:wait}
-    .shuffle-avatars .dice-icon{width:34px;height:34px;flex:none;filter:drop-shadow(0 2px 2px #7c594050);transform:rotate(-12deg);transform-origin:center}
+    .shuffle-avatars .dice-icon{width:26px;height:26px;flex:none;filter:drop-shadow(0 2px 2px #7c594050);transform:rotate(-12deg);transform-origin:center}
     .write-dialog[open] .shuffle-avatars:not(:disabled) .dice-icon{animation:dice-invite 5s ease-in-out 3}
     .shuffle-avatars.is-rolling .dice-icon{animation:dice-roll .6s ease-in-out 1!important}
     .shuffle-cue{position:absolute;right:3px;top:-18px;color:#aa684a;font-size:10px;font-weight:700;white-space:nowrap}
@@ -35,7 +35,7 @@
     @keyframes dice-invite{0%,78%,100%{transform:rotate(-12deg)}83%{transform:rotate(18deg) scale(1.1)}89%{transform:rotate(-27deg)}94%{transform:rotate(4deg)}}
     @keyframes dice-roll{to{transform:rotate(348deg)}}
     @keyframes cue-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
-    @media(max-width:350px){.avatar-toolbar>span{max-width:95px}.avatar-toolbar .shuffle-avatars{width:140px;min-width:140px;font-size:11px}}
+    @media(max-width:350px){.avatar-toolbar>span{max-width:95px}.avatar-toolbar .shuffle-avatars{width:118px;min-width:118px;font-size:11px}}
     @media(prefers-reduced-motion:reduce){.shuffle-avatars .dice-icon,.shuffle-cue{animation:none!important}}
   `;
   document.head.append(shuffleStyle);
