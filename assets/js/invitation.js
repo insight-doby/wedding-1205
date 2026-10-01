@@ -18,6 +18,27 @@
     '@media(prefers-reduced-motion:reduce){.garden .character.guest{transition:none!important}}'
   ].join('');
   document.head.append(walkStyle);
+  const shuffleStyle = document.createElement('style');
+  shuffleStyle.textContent = `
+    .avatar-toolbar{gap:8px;margin:22px 0 9px}
+    .avatar-toolbar>span{line-height:1.35}
+    .avatar-toolbar .shuffle-avatars{position:relative;display:flex;align-items:center;justify-content:center;gap:5px;flex:none;width:148px;min-width:148px;height:48px;min-height:48px;margin:0;padding:4px 8px 4px 5px;border:1px solid #b77f60;border-radius:13px;background:linear-gradient(145deg,#fff9ef,#efd7bf);color:#694631;box-shadow:0 3px 0 #c89d7d,0 6px 12px #a7774e26;font-size:12px;font-weight:700;line-height:1.2;white-space:nowrap;transition:transform .18s,box-shadow .18s,background .18s}
+    .avatar-toolbar .shuffle-avatars:hover{background:linear-gradient(145deg,#fff5e7,#eacbaa)}
+    .avatar-toolbar .shuffle-avatars:active{transform:translateY(2px);box-shadow:0 1px 0 #c89d7d,0 3px 7px #a7774e26}
+    .avatar-toolbar .shuffle-avatars:focus-visible{outline:3px solid #a87457;outline-offset:3px}
+    .avatar-toolbar .shuffle-avatars:disabled{opacity:.7;cursor:wait}
+    .shuffle-avatars .dice-icon{width:34px;height:34px;flex:none;filter:drop-shadow(0 2px 2px #7c594050);transform:rotate(-12deg);transform-origin:center}
+    .write-dialog[open] .shuffle-avatars:not(:disabled) .dice-icon{animation:dice-invite 5s ease-in-out 3}
+    .shuffle-avatars.is-rolling .dice-icon{animation:dice-roll .6s ease-in-out 1!important}
+    .shuffle-cue{position:absolute;right:3px;top:-18px;color:#aa684a;font-size:10px;font-weight:700;white-space:nowrap}
+    .write-dialog[open] .shuffle-cue{animation:cue-bob 2s ease-in-out 4}
+    @keyframes dice-invite{0%,78%,100%{transform:rotate(-12deg)}83%{transform:rotate(18deg) scale(1.1)}89%{transform:rotate(-27deg)}94%{transform:rotate(4deg)}}
+    @keyframes dice-roll{to{transform:rotate(348deg)}}
+    @keyframes cue-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+    @media(max-width:350px){.avatar-toolbar>span{max-width:95px}.avatar-toolbar .shuffle-avatars{width:140px;min-width:140px;font-size:11px}}
+    @media(prefers-reduced-motion:reduce){.shuffle-avatars .dice-icon,.shuffle-cue{animation:none!important}}
+  `;
+  document.head.append(shuffleStyle);
   let guestAvatars = preview ? Data.fallback.characters.filter(a => a.active) : [];
   let avatarById = new Map((preview ? Data.fallback.characters : []).map(a => [a.id, a]));
   const failedAvatarIds = new Set();
@@ -167,7 +188,7 @@
     }
     visibleAvatarIds=selected;redrawChoices();
     const count=guestAvatars.filter(a=>!failedAvatarIds.has(a.id)).length;
-    $('avatarPoolNote').textContent=count?`${count}명의 친구가 기다려요. 주사위로 다시 만나 보세요.`:'지금은 만날 수 있는 친구를 준비하고 있어요.';
+    $('avatarPoolNote').textContent=count?`${count}명의 친구가 기다려요. 위 주사위를 누르면 다른 5명이 나와요.`:'지금은 만날 수 있는 친구를 준비하고 있어요.';
     shuffling=false; $('shuffleAvatars').disabled=count===0; $('sendGuestbook').disabled=count===0||sending;
   }
   async function loadCatalog() {
@@ -184,7 +205,16 @@
       setGuestbookError(error.message); throw error;
     }
   }
-  $('shuffleAvatars').addEventListener('click',renderAvatarChoices);
+  const shuffleButton=$('shuffleAvatars');
+  shuffleButton.setAttribute('aria-label','다른 캐릭터 5명 다시 뽑기');
+  shuffleButton.title='다른 친구 뽑기';
+  shuffleButton.innerHTML='<span class="shuffle-cue" aria-hidden="true">↘ 눌러보세요!</span><svg class="dice-icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M9 13 27 7 42 16 24 22Z" fill="#fffdf7" stroke="#c99d7b" stroke-width="1.3"/><path d="M9 13 24 22 24 41 9 33Z" fill="#e9c7a7" stroke="#b68462" stroke-width="1.3"/><path d="M24 22 42 16 42 35 24 41Z" fill="#fff9ec" stroke="#b68462" stroke-width="1.3"/><g fill="#9c654c"><circle cx="14" cy="22" r="1.6"/><circle cx="19" cy="31" r="1.6"/><circle cx="29" cy="25" r="1.6"/><circle cx="37" cy="22" r="1.6"/><circle cx="33" cy="29" r="1.6"/><circle cx="29" cy="36" r="1.6"/><circle cx="37" cy="33" r="1.6"/></g></svg><span>다른 친구 뽑기</span>';
+  shuffleButton.addEventListener('click',async()=>{
+    const button=shuffleButton;
+    button.classList.add('is-rolling');
+    try{await renderAvatarChoices();}
+    finally{setTimeout(()=>button.classList.remove('is-rolling'),650);}
+  });
   redrawChoices();
   $('openGuestbook').addEventListener('click',()=>{
     selectedAvatarId='random';pendingSubmission=null;redrawChoices();$('formError').hidden=true;
