@@ -231,6 +231,7 @@ window.WEDDING_FALLBACK = {
     }
   ],
   "gallery": [
+    {"id": 19, "image_url": "assets/images/gallery/wedding-confetti-20261115.jpg", "alt": "하트 꽃잎을 날리는 도훈과 영현의 웨딩 사진", "sort_order": -1, "visible": true},
     {
       "id": 1,
       "image_url": "assets/images/gallery/wedding-01.jpg",
