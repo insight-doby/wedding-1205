@@ -530,5 +530,60 @@ window.WEDDING_VENUE = {
   document.head.append(script);
 })();
 
-</script></body>
+</script>
+<style>
+.cover-confetti{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:2}
+.cover-confetti i{position:absolute;top:-18px;left:var(--left);width:7px;height:10px;background:var(--color);border-radius:2px;opacity:0;animation:welcome-confetti var(--duration) ease-in-out var(--delay) both}
+.cover-confetti i:nth-child(3n){width:8px;height:8px;clip-path:polygon(50% 20%,75% 0,100% 20%,100% 48%,50% 100%,0 48%,0 20%,25% 0)}
+@keyframes welcome-confetti{0%{opacity:0;transform:translate3d(0,-15px,0) rotate(0)}12%{opacity:.75}85%{opacity:.65}100%{opacity:0;transform:translate3d(var(--drift),680px,0) rotate(var(--spin))}}
+.plaza-invite{position:fixed;left:50%;bottom:calc(86px + env(safe-area-inset-bottom));transform:translate(-50%,12px);width:calc(100% - 32px);max-width:446px;z-index:79;padding:14px 38px 14px 16px;border:1px solid #e7d6c6;border-radius:16px;background:#fffdf9f5;box-shadow:0 8px 30px #60463524;backdrop-filter:blur(12px);opacity:0;transition:opacity .35s,transform .35s}
+.plaza-invite.is-visible{opacity:1;transform:translate(-50%,0)}
+.plaza-invite p{margin:0 0 7px;font-size:13px;line-height:1.6;word-break:keep-all}
+.plaza-invite-action{font-size:12px;font-weight:600;color:#a66d58;min-height:36px;padding:4px 0}
+.plaza-invite-close{position:absolute;right:5px;top:5px;width:32px;height:32px;font-size:20px;color:#887a70}
+@media(prefers-reduced-motion:reduce){.cover-confetti{display:none}.plaza-invite{transition:none}}
+</style>
+<script>
+(() => {
+  'use strict';
+  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const photo=document.querySelector('.cover-photo');
+  const form=document.getElementById('guestbookForm');
+  let toast,shown=false,autoClose;
+  const saved=key=>{try{return localStorage.getItem(key)==='1';}catch{return false;}};
+  const seen=()=>{try{return sessionStorage.getItem('wedding-plaza-invite-seen')==='1';}catch{return false;}};
+  function dismiss(){if(!toast)return;toast.classList.remove('is-visible');clearTimeout(autoClose);setTimeout(()=>toast?.remove(),400);}
+  function showInvite(){
+    if(shown||seen()||saved('wedding-guestbook-completed')||document.querySelector('dialog[open]'))return;
+    shown=true;try{sessionStorage.setItem('wedding-plaza-invite-seen','1');}catch{}
+    toast=document.createElement('aside');toast.className='plaza-invite';toast.setAttribute('aria-label','광장 초대');
+    toast.innerHTML='<p role="status">💌 축하 한마디, 광장에 남겨주세요</p><button type="button" class="plaza-invite-action">캐릭터 고르기 →</button><button type="button" class="plaza-invite-close" aria-label="초대 안내 닫기">×</button>';
+    document.body.append(toast);
+    toast.querySelector('.plaza-invite-close').addEventListener('click',dismiss);
+    toast.querySelector('.plaza-invite-action').addEventListener('click',()=>{
+      dismiss();document.getElementById('guestbook').scrollIntoView({behavior:reduced?'instant':'smooth',block:'start'});
+      document.getElementById('openGuestbook').click();
+    });
+    requestAnimationFrame(()=>toast.classList.add('is-visible'));
+    autoClose=setTimeout(()=>{if(!toast.contains(document.activeElement))dismiss();},10000);
+  }
+  function begin(){
+    if(photo&&!reduced){
+      const layer=document.createElement('div');layer.className='cover-confetti';layer.setAttribute('aria-hidden','true');photo.append(layer);
+      const colors=['#f5b5c7','#e76672','#fff7f5','#edc9d4'];
+      for(let i=0;i<22;i++){
+        const bit=document.createElement('i');
+        bit.style.cssText='--left:'+Math.random()*100+'%;--color:'+colors[i%colors.length]+';--duration:'+(3.5+Math.random())+'s;--delay:'+Math.random()*.7+'s;--drift:'+(Math.random()*70-35)+'px;--spin:'+(Math.random()*360-180)+'deg';
+        layer.append(bit);
+      }
+      setTimeout(()=>layer.remove(),5300);
+    }
+    setTimeout(showInvite,reduced?1800:5500);
+  }
+  document.getElementById('openGuestbook').addEventListener('click',dismiss);
+  form.addEventListener('submit',dismiss);
+  if(document.readyState==='complete')begin();else window.addEventListener('load',begin,{once:true});
+})();
+</script>
+</body>
 </html>
