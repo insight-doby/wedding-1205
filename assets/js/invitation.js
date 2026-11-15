@@ -362,7 +362,7 @@
       let row={n,m,d:koreaDate(),a,id:pendingSubmission.id};
       if(preview){const saved=previewRead();if(!saved.some(item=>item.id===row.id)){saved.unshift(row);try{localStorage.setItem(storageKey,JSON.stringify(saved));}catch{transientEntries.unshift(row);}}}
       else row=await Data.register(n,m,a,pendingSubmission.id);
-      const entry=normalizeEntry(row);entries=entries.filter(item=>item.key!==entry.key);entries.unshift(entry);ownEntry=entry;lastSuccess=Date.now();hasLoaded=true;pendingSubmission=null;
+      const entry=normalizeEntry(row);entries=entries.filter(item=>item.key!==entry.key);entries.unshift(entry);ownEntry=entry;try{localStorage.setItem('wedding-guestbook-completed','1');}catch{}lastSuccess=Date.now();hasLoaded=true;pendingSubmission=null;
       renderGarden();if(!$('messageList').hidden)renderMessages();$('guestMessage').value='';$('messageLength').textContent='0 / 240';closeDialog($('writeDialog'));
       $('guestbookStatus').textContent=preview?'이 기기에 저장했어요. 공유 연결 후 다른 기기에서도 볼 수 있어요.':'';await entrance(entry);
     }catch(e){formError(e.message);}
