@@ -533,9 +533,9 @@ window.WEDDING_VENUE = {
 </script>
 <style>
 .cover-confetti{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:2}
-.cover-confetti i{position:absolute;top:-18px;left:var(--left);width:7px;height:10px;background:var(--color);border-radius:2px;opacity:0;animation:welcome-confetti var(--duration) ease-in-out var(--delay) both}
+.cover-confetti i{position:absolute;top:var(--top,-18px);left:var(--left);width:7px;height:10px;background:var(--color);border-radius:2px;opacity:0;animation:welcome-confetti var(--duration) ease-in-out var(--delay) both}
 .cover-confetti i:nth-child(3n){width:8px;height:8px;clip-path:polygon(50% 20%,75% 0,100% 20%,100% 48%,50% 100%,0 48%,0 20%,25% 0)}
-@keyframes welcome-confetti{0%{opacity:0;transform:translate3d(0,-15px,0) rotate(0)}12%{opacity:.75}85%{opacity:.65}100%{opacity:0;transform:translate3d(var(--drift),680px,0) rotate(var(--spin))}}
+@keyframes welcome-confetti{0%{opacity:0;transform:translate3d(0,-8px,0) rotate(0)}12%{opacity:.75}85%{opacity:.65}100%{opacity:0;transform:translate3d(var(--drift),100px,0) rotate(var(--spin))}}
 .plaza-invite{position:fixed;left:50%;bottom:calc(86px + env(safe-area-inset-bottom));transform:translate(-50%,12px);width:calc(100% - 32px);max-width:446px;z-index:79;padding:14px 38px 14px 16px;border:1px solid #e7d6c6;border-radius:16px;background:#fffdf9f5;box-shadow:0 8px 30px #60463524;backdrop-filter:blur(12px);opacity:0;transition:opacity .35s,transform .35s}
 .plaza-invite.is-visible{opacity:1;transform:translate(-50%,0)}
 .plaza-invite p{margin:0 0 7px;font-size:13px;line-height:1.6;word-break:keep-all}
@@ -573,10 +573,10 @@ window.WEDDING_VENUE = {
       const colors=['#f5b5c7','#e76672','#fff7f5','#edc9d4'];
       for(let i=0;i<22;i++){
         const bit=document.createElement('i');
-        bit.style.cssText='--left:'+Math.random()*100+'%;--color:'+colors[i%colors.length]+';--duration:'+(1.3+Math.random()*.4)+'s;--delay:'+Math.random()*.2+'s;--drift:'+(Math.random()*70-35)+'px;--spin:'+(Math.random()*360-180)+'deg';
+        bit.style.cssText='--top:'+Math.random()*85+'%;--left:'+Math.random()*100+'%;--color:'+colors[i%colors.length]+';--duration:'+(2.8+Math.random()*.5)+'s;--delay:'+Math.random()*.2+'s;--drift:'+(Math.random()*70-35)+'px;--spin:'+(Math.random()*360-180)+'deg';
         layer.append(bit);
       }
-      setTimeout(()=>layer.remove(),2000);
+      setTimeout(()=>{layer.style.transition='opacity .5s';layer.style.opacity='0';setTimeout(()=>layer.remove(),500);},1800);
     }
     setTimeout(showInvite,reduced?1000:2100);
   }
