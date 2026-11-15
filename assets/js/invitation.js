@@ -111,36 +111,10 @@
   if (config.cover) $('coverPhoto').src = config.cover;
 
   let photos=preview ? Data.fallback.gallery.filter(p=>p.visible) : [], galleryPage=0;
-  const PHOTO_PAGE_SIZE=18;
-  function renderGallery() {
-    const pages=Math.max(1,Math.ceil(photos.length/PHOTO_PAGE_SIZE));
-    galleryPage=Math.min(galleryPage,pages-1); $('galleryTrack').replaceChildren();
-    photos.slice(galleryPage*PHOTO_PAGE_SIZE,(galleryPage+1)*PHOTO_PAGE_SIZE).forEach((photo,offset)=>{
-      const index=galleryPage*PHOTO_PAGE_SIZE+offset;
-      const button=document.createElement('button'); button.className='gallery-slide'; button.type='button'; button.setAttribute('aria-label',`웨딩 사진 ${index+1} 크게 보기`);
-      const img=document.createElement('img'); img.src=photo.src; img.alt=photo.alt||'두 사람의 웨딩 사진'; img.loading='lazy'; img.draggable=false; button.append(img);
-      img.addEventListener('error',()=>{ button.hidden=true; $('galleryStatus').textContent='일부 사진을 불러오지 못했어요. 잠시 후 새로고침해 주세요.'; });
-      button.addEventListener('click',()=>{ selectedPhoto=index; updateLargePhoto(); openDialog($('photoDialog'),button); }); $('galleryTrack').append(button);
-    });
-    $('galleryCount').textContent=`${galleryPage+1} / ${pages}`;
-    $('galleryPrev').disabled=galleryPage===0; $('galleryNext').disabled=galleryPage>=pages-1;
-    document.querySelector('.gallery-control').hidden=photos.length<=PHOTO_PAGE_SIZE;
-    $('galleryStatus').textContent=photos.length?'':'사진을 준비하고 있어요.';
-  }
-  function updateLargePhoto() {
-    if(!photos.length) return;
-    selectedPhoto=(selectedPhoto+photos.length)%photos.length;
-    const photo=photos[selectedPhoto]; $('largePhoto').src=photo.src; $('largePhoto').alt=photo.alt||'두 사람의 웨딩 사진'; $('largePhoto').draggable=false;
-    $('largeCount').textContent=`${selectedPhoto+1} / ${photos.length}`;
-    $('largePrev').disabled=photos.length<2; $('largeNext').disabled=photos.length<2;
-  }
-  $('galleryPrev').addEventListener('click',()=>{galleryPage--;renderGallery();});
-  $('galleryNext').addEventListener('click',()=>{galleryPage++;renderGallery();});
-  $('largePrev').addEventListener('click',()=>{selectedPhoto--;updateLargePhoto();});
-  $('largeNext').addEventListener('click',()=>{selectedPhoto++;updateLargePhoto();});
-  $('photoDialog').addEventListener('keydown',event=>{if(event.key==='ArrowLeft')$('largePrev').click();if(event.key==='ArrowRight')$('largeNext').click();});
-  for(const area of [$('galleryTrack'),$('photoDialog')]) for(const type of ['contextmenu','dragstart','selectstart','copy']) area.addEventListener(type,event=>event.preventDefault());
-  renderGallery();
+  // The curated gallery owns its own data and native swipe/lightbox controls.
+  // Keep catalog refreshes for guestbook characters independent of the album.
+  window.WeddingGallery.init({openDialog,closeDialog});
+  function renderGallery() {}
 
   let day=1; const first=new Date(Date.UTC(2026,11,1)).getUTCDay();
   for(let row=0;row<5;row++){const tr=document.createElement('tr');for(let col=0;col<7;col++){const td=document.createElement('td');if((row>0||col>=first)&&day<=31){const span=document.createElement('span');span.textContent=String(day);if(day===5){span.className='wedding-day';td.setAttribute('aria-label','12월 5일, 결혼식');}td.append(span);day++;}tr.append(td);}$('calendarBody').append(tr);}
@@ -373,3 +347,4 @@
   renderGarden();
   if('IntersectionObserver'in window){const gardenObserver=new IntersectionObserver(changes=>{changes.forEach(change=>{if(change.target===$('garden')){$('garden').classList.toggle('is-active',change.isIntersecting);updateGardenRotation();updateGardenWalk();if(change.isIntersecting)loadEntries();}});},{rootMargin:'100px'});gardenObserver.observe($('garden'));const navObserver=new IntersectionObserver(changes=>{for(const change of changes){if(change.isIntersecting){document.querySelectorAll('.bottom-nav a').forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+change.target.id));}}},{rootMargin:'-5% 0px -65% 0px',threshold:0});['top','date','location','guestbook'].forEach(id=>navObserver.observe($(id)));}else{$('garden').classList.add('is-active');updateGardenWalk();loadEntries();}
 })();
+
